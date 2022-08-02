@@ -30,4 +30,14 @@ export class UserService {
   public deleteUser(userId:number):Observable<any| HttpErrorResponse> {
     return this.http.delete<any>(`${environment}/users/delete/${userId}`);
   }
+  public addUsersToLocalCache(users:User[]):void {
+    localStorage.setItem('users',JSON.stringify(users))
+  }
+  public getUsersFromLocalCache():User[]|null {
+    if(localStorage.getItem('users')){
+      //@ts-ignore
+      return JSON.parse(localStorage.getItem('users'))
+    }
+    return null;
+  }
 }
