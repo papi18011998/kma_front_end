@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -14,9 +16,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authenticationService:AuthenticationService) {}
 
-  intercept(httpRequest: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
-    if (httpRequest.url.includes(`${environment.apiUrl}/users/login`)){
-      return httpHandler.handle(httpRequest)
+  intercept(req: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.includes(`${environment.apiUrl}/users/login`)){
+      return httpHandler.handle(req)
     }
-  }
+    if (req.url.includes(`${environment.apiUrl}/users/register`)){
+      return httpHandler.handle(req)
+    }
+    if (req.url.includes(`${environment.apiUrl}/users/resetpassword`)){
+      return httpHandler.handle(req)
+    }
+    this.authenticationService.loadToken()
+    const token = this.authenticationService.getToken()
+    const request = req.clone({setHeaders:{authentication:`Bearer ${token}`}})
+    return  httpHandler.handle(req)
 }

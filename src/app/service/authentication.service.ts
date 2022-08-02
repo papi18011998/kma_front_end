@@ -12,7 +12,7 @@ export class AuthenticationService {
   private token!: string|null;
   private loggedInUsername!: null|string ;
   private jwtHelper= new JwtHelperService();
-
+  public host = environment.apiUrl
 
   constructor(private http:HttpClient) { }
   public login(user:User):Observable<HttpResponse<any> | HttpErrorResponse >{
