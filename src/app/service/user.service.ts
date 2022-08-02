@@ -14,5 +14,11 @@ export class UserService {
   public getUsers():Observable<User[]| HttpErrorResponse> {
     return this.http.get<User[]>(`${environment}/users/list`);
   }
+  public addUser(formData: FormData):Observable<User| HttpErrorResponse> {
+    return this.http.post<User>(`${environment}/users/add`,formData);
+  }
 
+  public updateUser(formData: FormData):Observable<User| HttpErrorResponse> {
+    return this.http.post<User>(`${environment}/users/update`,formData);
+  }
 }
