@@ -40,4 +40,6 @@ export class UserService {
     }
     return null;
   }
+  public createUserFormDate():User[]|null {
+  }
 }
