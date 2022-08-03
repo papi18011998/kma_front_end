@@ -15,8 +15,8 @@ export class AuthenticationService {
   public host = environment.apiUrl
 
   constructor(private http:HttpClient) { }
-  public login(user:User):Observable<HttpResponse<any> | HttpErrorResponse >{
-      return this.http.post<HttpResponse<any> | HttpErrorResponse>(`${environment}/users/login`,user,{observe:'response'});
+  public login(user:User):Observable<HttpResponse<User>|HttpErrorResponse>{
+      return this.http.post<User>(`${environment}/users/login`,user,{observe:'response'});
   }
   public register(user:User):Observable<User | HttpErrorResponse >{
     return this.http.post<User | HttpErrorResponse>(`${environment}/users/register`,user,);
@@ -29,9 +29,11 @@ export class AuthenticationService {
     localStorage.removeItem('users');
   }
 
-  public saveToken(token:string):void{
+  public saveToken(token: string | null):void{
     this.token=token;
-    localStorage.setItem('token',token);
+    if (typeof token === "string") {
+      localStorage.setItem('token', token);
+    }
   }
 
   public addUserToLocalCache(user:User):void{
@@ -50,18 +52,16 @@ export class AuthenticationService {
     return this.token;
   }
 
-  public isUserLoggedIn():boolean|any {
-    this.loadToken()
-    if(this.token!=null && this.token !== ''){
-      if (this.jwtHelper.decodeToken(this.token).sub != null || ''){
-        if (!this.jwtHelper.isTokenExpired(this.token)){
-          this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub
-          return true
+  public isUserLoggedIn(): boolean {
+    this.loadToken();
+    if (this.token != null && this.token !== '') {
+      if (this.jwtHelper.decodeToken(this.token).sub != null && this.jwtHelper.decodeToken(this.token).sub != '') {
+        if (!this.jwtHelper.isTokenExpired(this.token)) {
+          return true;
         }
       }
-    }else{
-      this.logout()
-      return false
     }
+    this.logout();
+    return false;
   }
 }
