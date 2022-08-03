@@ -50,7 +50,7 @@ export class AuthenticationService {
     return this.token;
   }
 
-  public isLoggedIn():boolean|any {
+  public isUserLoggedIn():boolean|any {
     this.loadToken()
     if(this.token!=null && this.token !== ''){
       if (this.jwtHelper.decodeToken(this.token).sub != null || ''){
