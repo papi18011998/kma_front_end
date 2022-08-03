@@ -8,6 +8,7 @@ import {AuthenticationService} from "./service/authentication.service";
 import {UserService} from "./service/user.service";
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 import {AuthGuard} from "./guard/auth.guard";
+import {NotifierModule} from "angular-notifier";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {AuthGuard} from "./guard/auth.guard";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NotifierModule
   ],
   providers: [AuthGuard,AuthenticationService,UserService,{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],
   bootstrap: [AppComponent]
