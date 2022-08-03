@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import {AuthenticationService} from "../service/authentication.service";
+import {NotificationService} from "../service/notification.service";
+import {NotificationType} from "../enum/notification-type";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authenticationService:AuthenticationService,private router:Router) {
+  constructor(private authenticationService:AuthenticationService,private router:Router,
+              private notificationService:NotificationService) {
   }
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -20,6 +23,7 @@ export class AuthGuard implements CanActivate {
     }
     this.router.navigate(['/login'])
     //send notification to user
+    this.notificationService.notify(NotificationType.ERROR, `You need to log in to access this page`)
     return false
   }
 }
