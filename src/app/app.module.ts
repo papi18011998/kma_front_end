@@ -12,19 +12,43 @@ import {NotifierModule, NotifierService} from "angular-notifier";
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
+import {FormsModule} from "@angular/forms";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminsComponent } from './components/admins/admins.component';
+import { ClassesComponent } from './components/classes/classes.component';
+import { ElevesComponent } from './components/eleves/eleves.component';
+import { FormAdminComponent } from './components/form-admin/form-admin.component';
+import { FormEleveComponent } from './components/form-eleve/form-eleve.component';
+import { FormParentComponent } from './components/form-parent/form-parent.component';
+import { FormProfesseurComponent } from './components/form-professeur/form-professeur.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { ParentsComponent } from './components/parents/parents.component';
+import { ProfesseursComponent } from './components/professeurs/professeurs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    UserComponent
+    UserComponent,
+    AdminsComponent,
+    ClassesComponent,
+    ElevesComponent,
+    FormAdminComponent,
+    FormEleveComponent,
+    FormParentComponent,
+    FormProfesseurComponent,
+    MenuComponent,
+    ParentsComponent,
+    ProfesseursComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NotifierModule
+    NotifierModule,
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [NotifierService,AuthGuard,AuthenticationService,UserService,{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],
   bootstrap: [AppComponent]
