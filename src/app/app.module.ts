@@ -24,6 +24,7 @@ import { FormProfesseurComponent } from './components/form-professeur/form-profe
 import { MenuComponent } from './components/menu/menu.component';
 import { ParentsComponent } from './components/parents/parents.component';
 import { ProfesseursComponent } from './components/professeurs/professeurs.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ProfesseursComponent } from './components/professeurs/professeurs.compo
     HttpClientModule,
     NotifierModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   providers: [NotifierService,AuthGuard,AuthenticationService,UserService,{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],
   bootstrap: [AppComponent]
