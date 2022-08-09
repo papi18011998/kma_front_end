@@ -1,1 +1,61 @@
-<p>form-professeur works!</p>
+<div class="pagetitle">
+  <h1>{{(is_update)?'Modification de professeur':'Ajout de professeur'}}</h1>
+</div>
+<form [formGroup]="addProfesseurForm" (ngSubmit)="submitProfesseur()">
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Prénom(s)"  formControlName="prenom" >
+      <div  class="text-danger" *ngIf="prenom && prenom.touched && prenom.errors?.['required']">Le prénom est obligatoire</div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Nom"  formControlName="nom">
+      <div  class="text-danger" *ngIf="nom && nom.touched && nom.errors?.['required']">Le nom est obligatoire</div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Metre votre login" formControlName="login" [readOnly]="is_update">
+      <div  class="text-danger" *ngIf="login && login.touched && login.errors?.['required']">Le login est obligatoire</div>
+      <div  class="text-danger" *ngIf="existingLogin">Le login existe déjà !!!</div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Ex: 771234433" formControlName="telephone" [readOnly]="is_update">
+      <div  class="text-danger" *ngIf="telephone && telephone.touched && telephone.errors">Format de téléphone incorrect</div>
+      <div  class="text-danger" *ngIf="existingTelephone">Le Téléphone existe déjà !!!</div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="date" class="form-control" placeholder="Adresse" formControlName="date_prise_fonction">
+      <div  class="text-danger" *ngIf="date_prise_fonction && date_prise_fonction.touched && date_prise_fonction.errors?.['required']">La date de prise de fonction est obligatoire</div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Adresse" formControlName="adresse">
+      <div  class="text-danger" *ngIf="adresse && adresse.touched && adresse.errors?.['required']">L'adresse est obligatoire</div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <select class="form-control" formControlName="genre_id" required>
+        <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
+      </select>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <select id="inputState" class="form-control" formControlName="matiere_id" required>
+        <option *ngFor="let matiere of matieres" value="{{matiere.id}}" >{{matiere.libelle}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <h5 class="col-md-12 col-sm-12 mb-3 mb-lg-0 text-center">Liste des classes</h5>
+    <div class="form-check form-check-inline col" *ngFor="let classe of classes">
+      <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="{{classe.id}}" (change)="onCheckClass($event)" formArrayName="classes" >
+      <label class="form-check-label" for="inlineCheckbox1">{{classe.libelle}}</label>
+    </div>
+  </div>
+  <div class="text-center">
+    <button type="submit" class="mt-4 btn btn-primary col-lg-3" [disabled]="addProfesseurForm.invalid">Enregistrer</button>
+  </div>
+</form>
+
