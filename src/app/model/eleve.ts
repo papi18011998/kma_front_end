@@ -11,6 +11,6 @@ export interface Eleve {
   adresseParent: string
   telephone: string
   cni: string
-  login: string
+  userName: string
   genreIdParent: number
 }
