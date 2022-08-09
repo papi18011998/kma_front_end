@@ -1,1 +1,34 @@
-<p>classes works!</p>
+<div class="pagetitle">
+  <h1>Liste des classes</h1>
+</div>
+<div class="search-add-bloc d-flex justify-content-between">
+  <form  [formGroup]="searchForm" (ngSubmit)="search()">
+    <div class="input-group">
+      <input type="text" class="form-control input-rounded-left" placeholder="Rechercher une classe" formControlName="nom"/>
+      <button type="submit" class="btn btn-rounded-right border btn-outline-primary"><i class="bi bi-search"></i></button>
+    </div>
+  </form>
+  <a class="btn btn-primary d-flex"><i class="bi bi-plus-circle"></i> Nouveau</a>
+</div>
+<table id="example" class="display table">
+  <thead >
+  <tr>
+    <th scope="col">Nom de la classe</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let classe of classes | paginate: { itemsPerPage: 5, currentPage: page }">
+    <td>{{classe.libelle}}</td>
+    <td>
+      <a  title="Voir plus" ><i class="bi bi-eye text-primary"></i></a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+  </tbody>
+</table>
+<div class="text-center">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+
