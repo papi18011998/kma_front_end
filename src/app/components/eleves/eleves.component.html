@@ -27,7 +27,7 @@
     <td>{{eleve.adresse}}</td>
     <td>
       <a  title="modifier" style="cursor: pointer" ><i class="bi bi-tools text-primary m-2"></i></a>
-      <a  [title]="eleve.is_active?'Archiver':'Désarchiver'" ><i class="bi bi-archive" [ngClass]="eleve.is_active?'text-danger':'text-success'"></i></a>
+      <a  [title]="eleve.active?'Archiver':'Désarchiver'" ><i class="bi bi-archive" [ngClass]="eleve.active?'text-danger':'text-success'"></i></a>
     </td>
     <td></td>
   </tr>

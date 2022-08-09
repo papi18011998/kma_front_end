@@ -6,7 +6,7 @@ export interface ParentModelGet {
   nom:string
   userName:string
   adresse:string
-  is_active:boolean
+  active:boolean
   genre:Genre
   telephone:string
   cni:string
