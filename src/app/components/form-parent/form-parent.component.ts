@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Genre} from "../../model/genre";
 import {Classe} from "../../model/classe";
@@ -7,6 +7,8 @@ import {ClassesService} from "../../service/classes.service";
 import {Router} from "@angular/router";
 import {ParentService} from "../../service/parent.service";
 import {Parent} from "../../model/parent";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
 
 
 @Component({
@@ -24,7 +26,8 @@ export class FormParentComponent implements OnInit {
                private classeService:ClassesService,
                private form:FormBuilder,
                private router:Router,
-               private parentService:ParentService) {}
+               private parentService:ParentService,
+               private notifier: NotificationService) {}
 
   ngOnInit(): void {
     this.getGenres()
@@ -89,8 +92,14 @@ export class FormParentComponent implements OnInit {
       annee: this.formEleve.value.annee
     }
     this.parentService.addParent(parent).subscribe({
-      next:()=>this.router.navigate(['parents']),
-      error:error => console.log(error)
+      next:()=>{
+        this.router.navigate(['parents'])
+        this.notifier.notify(NotificationType.SUCCESS, "Parent et élève ajouté avec succès !!!")
+      },
+      error:error => {
+        this.notifier.notify(NotificationType.ERROR, error.error.message)
+        console.log(error)
+      }
     })
   }
 

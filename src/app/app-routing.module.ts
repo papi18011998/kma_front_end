@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./components/login/login.component";
-import {RegisterComponent} from "./components/register/register.component";
 import {UserComponent} from "./components/user/user.component";
 import {AuthGuard} from "./guard/auth.guard";
 import {AdminsComponent} from "./components/admins/admins.component";
@@ -16,7 +15,6 @@ import {FormEleveComponent} from "./components/form-eleve/form-eleve.component";
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
-  {path:"register",component:RegisterComponent},
   {path:"user/management", component:UserComponent,canActivate:[AuthGuard]},
   {path:"admins", component: AdminsComponent,canActivate:[AuthGuard]},
   {path:"admins/add", component:FormAdminComponent,canActivate:[AuthGuard]},

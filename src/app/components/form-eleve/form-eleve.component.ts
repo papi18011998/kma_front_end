@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Genre} from "../../model/genre";
 import {Classe} from "../../model/classe";
 import {ParentModelGet} from "../../model/parent-model-get";
@@ -9,6 +9,8 @@ import {ParentService} from "../../service/parent.service";
 import {ClassesService} from "../../service/classes.service";
 import {Router} from "@angular/router";
 import {Eleve} from "../../model/eleve";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
 
 
 @Component({
@@ -31,7 +33,8 @@ export class FormEleveComponent implements OnInit {
               private parentService:ParentService,
               private classeService:ClassesService,
               private form:FormBuilder,
-              private router:Router) { }
+              private router:Router,
+              private notifier:NotificationService) { }
 
   ngOnInit(): void {
     this.getGenre()
@@ -127,8 +130,12 @@ export class FormEleveComponent implements OnInit {
       this.eleveService.addEleve(eleve).subscribe({
         next: () => {
           this.router.navigate(['/eleves'])
+          this.notifier.notify(NotificationType.SUCCESS,"Eleve ajouté qvec succès" )
         },
-        error: (error) => console.log(error)
+        error: (error) => {
+          this.notifier.notify(NotificationType.ERROR, error.error.message)
+          console.log(error)
+        }
       })
     }
   }

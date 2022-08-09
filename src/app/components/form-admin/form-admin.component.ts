@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdminsService} from "../../service/admins.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Genre} from "../../model/genre";
 import {Admin} from "../../model/admin";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
 
 @Component({
   selector: 'app-form-admin',
@@ -14,7 +16,8 @@ export class FormAdminComponent implements OnInit {
   constructor(private adminService:AdminsService,
               private fromBuilder:FormBuilder,
               private router:Router,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private notifier: NotificationService) { }
   existingLogin:boolean = false
   existingTelephone:boolean = false
   admins!:any
@@ -71,8 +74,14 @@ export class FormAdminComponent implements OnInit {
         (data != null) ? this.existingTelephone = true : this.existingTelephone = false;
         if (!this.existingLogin && !this.existingTelephone) {
           this.adminService.addAdmin(admin).subscribe({
-            next: () => this.router.navigate(['admins']),
-            error:(err)=>console.log(err)
+            next: () => {
+              this.router.navigate(['admins'])
+              this.notifier.notify(NotificationType.SUCCESS,"Administrateur ajoute avec succès")
+            },
+            error:(err)=>{
+              this.notifier.notify(NotificationType.ERROR, err.error.message)
+              console.log(err)
+            }
           });
         }
       }

@@ -8,6 +8,8 @@ import {ClassesService} from "../../service/classes.service";
 import {AdminsService} from "../../service/admins.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Professeur} from "../../model/professeur";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
 
 @Component({
   selector: 'app-form-professeur',
@@ -30,7 +32,8 @@ export class FormProfesseurComponent implements OnInit {
               private classeService:ClassesService,
               private adminService:AdminsService,
               private route:Router,
-              private routeParams:ActivatedRoute) { }
+              private routeParams:ActivatedRoute,
+              private notifier:NotificationService) { }
 
   ngOnInit(): void {
     this.getMatieres()
@@ -115,7 +118,9 @@ export class FormProfesseurComponent implements OnInit {
         next:()=>{
           localStorage.removeItem('professeur')
           this.route.navigate(['professeurs'])
-        }
+          this.notifier.notify(NotificationType.SUCCESS, "Professur modifié avec succès !!!")
+        },
+        error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
       })
     }else{
       // Ajout de professeur
@@ -150,7 +155,10 @@ export class FormProfesseurComponent implements OnInit {
           (data != null) ? this.existingLogin = true : this.existingLogin = false;
           if (!this.existingLogin && !this.existingTelephone) {
             this.professeurService.addProfesseur(professeur).subscribe({
-              next: () => this.route.navigate(['professeurs']),
+              next: () => {
+                this.notifier.notify(NotificationType.SUCCESS, "Professeur modifié avec succès !!!")
+                this.route.navigate(['professeurs'])},
+              error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
             });
           }
         }
