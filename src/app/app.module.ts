@@ -12,7 +12,7 @@ import {NotifierModule, NotifierService} from "angular-notifier";
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminsComponent } from './components/admins/admins.component';
 import { ClassesComponent } from './components/classes/classes.component';
@@ -49,6 +49,7 @@ import {NgxPaginationModule} from "ngx-pagination";
     HttpClientModule,
     NotifierModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxPaginationModule
   ],
