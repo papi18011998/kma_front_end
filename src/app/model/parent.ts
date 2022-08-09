@@ -4,7 +4,7 @@ export interface Parent {
   adresse: string,
   telephone: string,
   cni: string,
-  login: string,
+  userName: string,
   genre_id: number,
   prenomEleve: string,
   nomEleve: string,

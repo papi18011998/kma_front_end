@@ -4,9 +4,9 @@ export interface EleveModelGet {
   id:number
   prenom:string
   nom:string
-  login:string
+  userName:string
   adresse:string
-  is_active:boolean
+  active:boolean
   genre:Genre
   telephone:string
   matricule:string

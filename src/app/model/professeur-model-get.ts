@@ -5,9 +5,9 @@ export interface ProfesseurModelGet {
   id:number
   prenom:string
   nom:string
-  login:string
+  userName:string
   adresse	:string
-  is_active	:string
+  active	:string
   genre:Genre
   telephone:string
   date_prise_fonction:Date
