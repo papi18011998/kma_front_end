@@ -1,1 +1,44 @@
-<p>form-admin works!</p>
+<div class="pagetitle">
+  <h1>{{(is_update)?'Modifier Administrateur':'Ajout Administrateur'}}</h1>
+</div>
+<form [formGroup]="addAdminForm" (ngSubmit)="addAdmin()">
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Prénom(s)" [value]="(is_update)?adminToUpdate?.prenom:null"  formControlName="prenom" >
+      <div  class="text-danger" *ngIf="prenom && prenom.touched && prenom.errors?.['required']">Le prénom est obligatoire</div>
+    </div>
+
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Nom"  formControlName="nom">
+      <div  class="text-danger" *ngIf="nom && nom.touched && nom.errors?.['required']">Le nom est obligatoire</div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Metre votre login" formControlName="login" [readOnly]="is_update">
+      <div  class="text-danger" *ngIf="login && login.touched && login.errors?.['required']">Le login est obligatoire</div>
+      <div  class="text-danger" *ngIf="existingLogin">Le login existe déjà !!!</div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Ex: 771234433" formControlName="telephone" [pattern]="telephonePattern" [readOnly]="is_update">
+      <div  class="text-danger" *ngIf="telephone && telephone.touched && telephone.errors">Format de téléphone incorrect</div>
+      <div  class="text-danger" *ngIf="existingTelephone">Le Téléphone existe déjà !!!</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <input type="text" class="form-control" placeholder="Adresse" formControlName="adresse">
+      <div  class="text-danger" *ngIf="adresse && adresse.touched && adresse.errors?.['required']">L'adresse est obligatoire</div>
+    </div>
+    <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+      <select id="inputState" class="form-control" formControlName="genre_id" required>
+        <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="text-center">
+    <div class="text-danger font-weight-bold my-3" *ngIf="!is_update">NB : Un SMS contenant le mot de passe sera envoye sur ce numero</div>
+    <button type="submit" class="mt-4 btn btn-primary col-lg-3" [disabled]="addAdminForm.invalid">{{(is_update)?'Modifier':'Enregistrer'}}</button>
+  </div>
+</form>
+
