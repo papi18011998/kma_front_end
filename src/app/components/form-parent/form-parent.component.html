@@ -1,1 +1,95 @@
-<p>form-parent works!</p>
+<div class="pagetitle">
+  <h1>Ajout de Parent</h1>
+</div>
+<mat-horizontal-stepper linear>
+  <mat-step label="Informations du parent">
+    <form [formGroup]="formParent">
+      <div class="row mb-4">
+        <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Prénom(s)" formControlName="prenom">
+          <div  class="text-danger" *ngIf="prenom && prenom.touched && prenom.errors?.['required']">Le prénom est obligatoire</div>
+        </div>
+
+        <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Nom" formControlName="nom">
+          <div  class="text-danger" *ngIf="nom && nom.touched && nom.errors?.['required']">Le nom est obligatoire</div>
+        </div>
+
+        <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="numero de CNI" formControlName="cni">
+          <div  class="text-danger" *ngIf="cni && cni.touched && cni.errors">Format de CNI incorrect</div>
+        </div>
+
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Metre votre login" formControlName="login">
+          <div  class="text-danger" *ngIf="login && login.touched && login.errors?.['required']">Le login est obligatoire</div>
+          <!--          <div  class="text-danger" *ngIf="existingLogin">Le login existe déjà !!!</div>-->
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Ex: 771234433" formControlName="telephone">
+          <div  class="text-danger" *ngIf="telephone && telephone.touched && telephone.errors">Format de téléphone incorrect</div>
+          <!--          <div  class="text-danger" *ngIf="existingTelephone">Le Téléphone existe déjà !!!</div>-->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Adresse" formControlName="adresse">
+          <div  class="text-danger" *ngIf="adresse && adresse.touched && adresse.errors?.['required']">L'adresse est obligatoire</div>
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <select id="inputState1" class="form-control" formControlName="genre_id" required>
+            <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-success" matStepperNext [disabled]="formParent.invalid">Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Informations de l'eleve">
+    <form [formGroup]="formEleve" (ngSubmit)="onSubmit()">
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Prénom(s)" formControlName="prenomEleve">
+          <div  class="text-danger" *ngIf="prenomEleve && prenomEleve.touched && prenomEleve.errors?.['required']">Le prénom est obligatoire</div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Nom" formControlName="nomEleve">
+          <div  class="text-danger" *ngIf="nomEleve && nomEleve.touched && nomEleve.errors?.['required']">Le nom est obligatoire</div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0" >
+          <input type="date" class="form-control" placeholder="Metre la date de naissance" formControlName="date_naissance">
+          <div  class="text-danger" *ngIf="date_naissance && date_naissance.touched && date_naissance.errors?.['required']">La date de naissance est obligatoire</div>
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Mettre l'adresse de l'eleve" formControlName="adresseEleve">
+          <div  class="text-danger" *ngIf="adresseEleve && adresseEleve.touched && adresseEleve.errors?.['required']">L'adresse est obligatoire</div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <label >Genre de l'élève</label>
+          <select id="inputState" class="form-control" formControlName="genre_idEleve" required>
+            <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
+          </select>
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <label >Classe de l'élève</label>
+          <select id="inputState2" class="form-control" formControlName="annee" required>
+            <option *ngFor="let classe of classes" value="{{classe.id}}" >{{classe.libelle}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-danger me-2" matStepperPrevious>Retour</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formParent.invalid || formEleve.invalid">Enregistrer</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>
