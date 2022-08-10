@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ClassesService} from "../../service/classes.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Classe} from "../../model/classe";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-classes-per-professeur',
@@ -10,7 +11,9 @@ import {Classe} from "../../model/classe";
 })
 export class ClassesPerProfesseurComponent implements OnInit {
 
-  constructor(private classeService:ClassesService, private formBuilder:FormBuilder) { }
+  constructor(private classeService:ClassesService,
+              private formBuilder:FormBuilder,
+              private router: Router) { }
 
   classes!:Classe[]
   page: string | number=1;
@@ -39,4 +42,7 @@ export class ClassesPerProfesseurComponent implements OnInit {
     this.classes = this.classeService.searchClasses(this.searchForm.value.nom.toLowerCase())
   }
 
+  getElevesPerClasse(id:number) {
+    this.router.navigate(['classes',id,'2021-2022'])
+  }
 }

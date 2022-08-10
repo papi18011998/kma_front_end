@@ -1,4 +1,4 @@
 export interface Classe {
-  id:number|null
+  id:number
   libelle:string
 }

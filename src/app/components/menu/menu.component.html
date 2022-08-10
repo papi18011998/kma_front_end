@@ -113,7 +113,7 @@
     </ng-container>
     <ng-container *ngIf=" user && user.role == 'ROLE_PROFESSEUR'">
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" routerLink="classes/{{user.id}}/2021-2022">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" routerLink="professeurs/{{user.id}}/classes/2021-2022">
           <i class="bi bi-book"></i><span>Gestion de mes classes</span>
         </a>
       </li><!-- End Charts Nav -->

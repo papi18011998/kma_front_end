@@ -21,7 +21,7 @@
   <tr *ngFor="let classe of classes | paginate: { itemsPerPage: 5, currentPage: page }">
     <td>{{classe.libelle}}</td>
     <td>
-      <a  title="Voir plus" ><i class="bi bi-eye text-primary"></i></a>
+      <a title="Voir les eleves de cette classe"  (click)="getElevesPerClasse(classe.id)"><i class="bi bi-eye text-primary"></i></a>
     </td>
     <td></td>
   </tr>

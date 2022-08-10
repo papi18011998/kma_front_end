@@ -3,6 +3,7 @@ import {Classe} from "../model/classe";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
+import {EleveModelGet} from "../model/eleve-model-get";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,8 @@ export class ClassesService {
   }
   getClassesOfProfesseur(id:number):Observable<Classe[]>{
     return this.httpClient.get<Classe[]>(`${environment.apiUrl}/professeurs/${id}/classes/2021-2022`)
+  }
+  getElevesOfClasse(id:number):Observable<EleveModelGet[]>{
+    return this.httpClient.get<EleveModelGet[]>(`${environment.apiUrl}/classes/${id}/2021-2022`)
   }
 }

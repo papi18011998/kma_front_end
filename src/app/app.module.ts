@@ -28,6 +28,7 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import { ClassesPerProfesseurComponent } from './components/classes-per-professeur/classes-per-professeur.component';
+import { ElevesPerClasseComponent } from './components/eleves-per-classe/eleves-per-classe.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ClassesPerProfesseurComponent } from './components/classes-per-professe
     MenuComponent,
     ParentsComponent,
     ProfesseursComponent,
-    ClassesPerProfesseurComponent
+    ClassesPerProfesseurComponent,
+    ElevesPerClasseComponent
   ],
   imports: [
     BrowserModule,
