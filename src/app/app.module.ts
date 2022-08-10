@@ -27,6 +27,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import { ClassesPerProfesseurComponent } from './components/classes-per-professeur/classes-per-professeur.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     FormProfesseurComponent,
     MenuComponent,
     ParentsComponent,
-    ProfesseursComponent
+    ProfesseursComponent,
+    ClassesPerProfesseurComponent
   ],
   imports: [
     BrowserModule,

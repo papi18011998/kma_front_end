@@ -12,6 +12,7 @@ import {ParentsComponent} from "./components/parents/parents.component";
 import {FormParentComponent} from "./components/form-parent/form-parent.component";
 import {ElevesComponent} from "./components/eleves/eleves.component";
 import {FormEleveComponent} from "./components/form-eleve/form-eleve.component";
+import {ClassesPerProfesseurComponent} from "./components/classes-per-professeur/classes-per-professeur.component";
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:"classes",component:ClassesComponent,canActivate:[AuthGuard]},
   {path:"classes/add",component:ClassesComponent,canActivate:[AuthGuard]},
   {path:"classes/:id",component:ClassesComponent,canActivate:[AuthGuard]},
+  {path:"classes/:id/:annee",component:ClassesPerProfesseurComponent,canActivate:[AuthGuard]},
   {path:"professeurs",component:ProfesseursComponent,canActivate:[AuthGuard]},
   {path:"professeurs/add",component:FormProfesseurComponent,canActivate:[AuthGuard]},
   {path:"professeurs/:id",component:FormProfesseurComponent,canActivate:[AuthGuard]},

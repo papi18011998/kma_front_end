@@ -21,4 +21,7 @@ export class ClassesService {
   searchClasses(nom: string) {
     return this.classes.filter((classe:Classe) => classe.libelle.toLowerCase().includes(nom.toLowerCase()))
   }
+  getClassesOfProfesseur(id:number):Observable<Classe[]>{
+    return this.httpClient.get<Classe[]>(`${environment.apiUrl}/professeurs/${id}/classes/2021-2022`)
+  }
 }
