@@ -24,6 +24,9 @@ import { MenuComponent } from './components/menu/menu.component';
 import { ParentsComponent } from './components/parents/parents.component';
 import { ProfesseursComponent } from './components/professeurs/professeurs.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatIconModule} from "@angular/material/icon";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import {NgxPaginationModule} from "ngx-pagination";
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatStepperModule,
+    MatIconModule,
+    MatFormFieldModule,
   ],
   providers: [NotifierService,AuthGuard,AuthenticationService,UserService,{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true}],
   bootstrap: [AppComponent]

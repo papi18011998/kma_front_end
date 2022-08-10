@@ -1,124 +1,123 @@
-<!--Header -->
-
-
-<!-- Sidebar-->
 <aside id="sidebar" class="sidebar">
-
   <ul class="sidebar-nav" id="sidebar-nav">
-
     <li class="nav-item">
       <a class="nav-link " href="index.html">
         <i class="bi bi-grid"></i>
         <span>Tableau de bord</span>
       </a>
     </li><!-- End Dashboard Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person"></i><span>Gestion des admins</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a routerLink="/admins">
-            <i class="bi bi-list"></i><span>Liste des admins</span>
-          </a>
-        </li>
-        <li>
-          <a  routerLink="/admins/add">
-            <i class="bi bi-person-plus"></i><span>Ajouter un admin</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Components Nav -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav1" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-people"></i><span>Gestion des parents</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="forms-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a routerLink="parents">
-            <i class="bi bi-list"></i><span>Liste des parents</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="parents/add">
-            <i class="bi bi-person-plus"></i><span>Ajouter un parent</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-people"></i><span>Gestion des élèves</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a routerLink="eleves">
-            <i class="bi bi-list"></i><span>Liste des élèves</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="eleves/add">
-            <i class="bi bi-person-plus"></i><span>Ajouter un élève</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Eleve Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-video3"></i><span>Gestion des professeurs</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a routerLink="/professeurs">
-            <i class="bi bi-list"></i><span>Liste des professeurs</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="professeurs/add" class="bi bi-arrow-up-short">
-            <i class="bi bi-person-plus"></i><span>Ajouter un professeur</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Tables Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse">
-        <i class="bi bi-book"></i><span>Gestion des classes</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a routerLink="/classes">
-            <i class="bi bi-list"></i><span>Liste des classes</span>
-          </a>
-        </li>
-        <li>
-          <a href="charts-apexcharts.html">
-            <i class="bi bi-book-fill"></i><span>Ajouter une classe</span>
-          </a>
-        </li>
-        <li>
-      </ul>
-    </li><!-- End Charts Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-sticky"></i><span>Gestion des matières</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="icons-bootstrap.html">
-            <i class="bi bi-list"></i><span>Liste des matières</span>
-          </a>
-        </li>
-        <li>
-          <a href="icons-remix.html">
-            <i class="bi bi-stickies-fill"></i><span>Ajouter une matière</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Icons Nav -->
+    <ng-container *ngIf="user && user.role == 'ROLE_ADMIN'">
+      <li class="nav-item" >
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Gestion des admins</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="/admins">
+              <i class="bi bi-list"></i><span>Liste des admins</span>
+            </a>
+          </li>
+          <li>
+            <a  routerLink="/admins/add">
+              <i class="bi bi-person-plus"></i><span>Ajouter un admin</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Components Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav1" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Gestion des parents</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="parents">
+              <i class="bi bi-list"></i><span>Liste des parents</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="parents/add">
+              <i class="bi bi-person-plus"></i><span>Ajouter un parent</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people"></i><span>Gestion des élèves</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="eleves">
+              <i class="bi bi-list"></i><span>Liste des élèves</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="eleves/add">
+              <i class="bi bi-person-plus"></i><span>Ajouter un élève</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Eleve Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person-video3"></i><span>Gestion des professeurs</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="/professeurs">
+              <i class="bi bi-list"></i><span>Liste des professeurs</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="professeurs/add" class="bi bi-arrow-up-short">
+              <i class="bi bi-person-plus"></i><span>Ajouter un professeur</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse">
+          <i class="bi bi-book"></i><span>Gestion des classes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a routerLink="/classes">
+              <i class="bi bi-list"></i><span>Liste des classes</span>
+            </a>
+          </li>
+          <li>
+            <a href="charts-apexcharts.html">
+              <i class="bi bi-book-fill"></i><span>Ajouter une classe</span>
+            </a>
+          </li>
+          <li>
+        </ul>
+      </li><!-- End Charts Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-sticky"></i><span>Gestion des matières</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="icons-bootstrap.html">
+              <i class="bi bi-list"></i><span>Liste des matières</span>
+            </a>
+          </li>
+          <li>
+            <a href="icons-remix.html">
+              <i class="bi bi-stickies-fill"></i><span>Ajouter une matière</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Icons Nav -->
+    </ng-container>
+    <ng-container *ngIf=" user && user.role == 'ROLE_PROFESSEUR'">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse">
+          <i class="bi bi-book"></i><span>Gestion de mes classes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+      </li><!-- End Charts Nav -->
+    </ng-container>
   </ul>
 
 </aside>
