@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ClassesService} from "../../service/classes.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Classe} from "../../model/classe";
 import {Router} from "@angular/router";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
 
 @Component({
   selector: 'app-classes-per-professeur',
@@ -13,7 +15,8 @@ export class ClassesPerProfesseurComponent implements OnInit {
 
   constructor(private classeService:ClassesService,
               private formBuilder:FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private notifier : NotificationService) { }
 
   classes!:Classe[]
   page: string | number=1;
@@ -27,12 +30,11 @@ export class ClassesPerProfesseurComponent implements OnInit {
   }
   public getClasses(){
     let idProfesseur:number = JSON.parse(localStorage.getItem('user')!).id
-    console.log(idProfesseur)
     this.classeService.getClassesOfProfesseur(idProfesseur).subscribe({
       next:(data)=>{
-        console.log(data)
         this.classes=data
-      }
+      },
+      error:(error)=>this.notifier.notify(NotificationType.ERROR, error.error.message)
     })
   }
 

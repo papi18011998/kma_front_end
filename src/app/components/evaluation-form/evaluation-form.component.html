@@ -1,0 +1,40 @@
+<div class="pagetitle">
+  <h1>Ajout d'une évaluation</h1>
+</div>
+    <form [formGroup]="evaluationForm" (ngSubmit)="submitEvaluation()">
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="hidden" class="form-control" formControlName="idEleve">
+          <input type="text" class="form-control" placeholder="Prénom(s)" formControlName="prenom" readonly>
+          <div  class="text-danger" *ngIf="prenom && prenom.touched && prenom.errors?.['required']">Le prénom est obligatoire</div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Nom" formControlName="nom" readonly>
+          <div  class="text-danger" *ngIf="nom && nom.touched && nom.errors?.['required']">Le nom est obligatoire</div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Metre la date de naissance" formControlName="matricule" readonly >
+          <div  class="text-danger" *ngIf="matricule && matricule.touched && matricule.errors?.['required']">Le matricule est obligatoire</div>
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="text" class="form-control" placeholder="Matiere" formControlName="matiere" readonly>
+          <div  class="text-danger" *ngIf="matiere && matiere.touched && matiere.errors?.['required']">La matiere est obligatoire</div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="date" class="form-control" placeholder="date de naissance" formControlName="date_naissance" readonly>
+          <div  class="text-danger" *ngIf="date_naissance && date_naissance.touched && date_naissance.errors?.['required']">La date de naissance est obligatoire</div>
+        </div>
+        <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
+          <input type="number" class="form-control" placeholder="Mettre la note de l'élève [0-20]" formControlName="note">
+          <div  class="text-danger" *ngIf="note && note.touched && note.errors?.['required']">La note est obligatoire</div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary" [disabled]="evaluationForm.invalid">Enregister</button>
+      </div>
+    </form>

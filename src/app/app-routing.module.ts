@@ -14,6 +14,7 @@ import {ElevesComponent} from "./components/eleves/eleves.component";
 import {FormEleveComponent} from "./components/form-eleve/form-eleve.component";
 import {ClassesPerProfesseurComponent} from "./components/classes-per-professeur/classes-per-professeur.component";
 import {ElevesPerClasseComponent} from "./components/eleves-per-classe/eleves-per-classe.component";
+import {EvaluationFormComponent} from "./components/evaluation-form/evaluation-form.component";
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -32,7 +33,8 @@ const routes: Routes = [
   {path:"parents" ,component:ParentsComponent,canActivate:[AuthGuard]},
   {path:"parents/add",component:FormParentComponent,canActivate:[AuthGuard]},
   {path:"eleves" ,component:ElevesComponent,canActivate:[AuthGuard]},
-  {path:"eleves/add" ,component:FormEleveComponent,canActivate:[AuthGuard]},
+  {path:"eleves/add",component:FormEleveComponent,canActivate:[AuthGuard]},
+  {path:"evaluations",component:EvaluationFormComponent,canActivate:[AuthGuard]},
   {path:'',redirectTo:'/login',pathMatch:'full'}
 ];
 

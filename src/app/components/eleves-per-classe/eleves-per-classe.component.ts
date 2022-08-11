@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {EleveModelGet} from "../../model/eleve-model-get";
 import {ClassesService} from "../../service/classes.service";
-import {ActivatedRoute} from "@angular/router";
-import {FormGroup} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {NotificationService} from "../../service/notification.service";
 import {NotificationType} from "../../enum/notification-type";
 
@@ -17,10 +17,15 @@ export class ElevesPerClasseComponent implements OnInit {
   page:number = 1
   constructor(private classeService : ClassesService,
               private route : ActivatedRoute,
-              private notifier : NotificationService) { }
+              private notifier : NotificationService,
+              private formBuilder: FormBuilder,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.getElevesPerClasse()
+    this.searchForm = this.formBuilder.group({
+      nom : this.formBuilder.control(null)
+    })
   }
   public getElevesPerClasse(){
     let idClasse:number = this.route.snapshot.params['id']
@@ -31,5 +36,11 @@ export class ElevesPerClasseComponent implements OnInit {
   }
   search() {
 
+  }
+
+  getEleveToEvaluate(id: number) {
+    let eleveToEvaluate = this.eleves.find((eleve)=> eleve.id==id)
+    localStorage.setItem('eleveToEvaluate',JSON.stringify(eleveToEvaluate))
+    this.router.navigate(['evaluations'])
   }
 }

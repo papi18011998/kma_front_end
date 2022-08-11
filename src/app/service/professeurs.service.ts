@@ -11,6 +11,7 @@ import {Professeur} from "../model/professeur";
 })
 export class ProfesseursService {
   professseurs!:ProfesseurModelGet[]
+  professeur!:ProfesseurModelGet
   constructor( private httpClient:HttpClient) { }
   public getProfesseurs():Observable<ProfesseurModelGet[]>{
     this.httpClient.get<ProfesseurModelGet[]>(`${environment.apiUrl}/professeurs`).subscribe({
@@ -33,5 +34,8 @@ export class ProfesseursService {
 
   searchProfesseur(nom: string) {
     return this.professseurs.filter((professeur:any)=>professeur.prenom.toLowerCase().includes(nom.toLowerCase()))
+  }
+  getMatiereOfProfesseur(id:number){
+   return this.httpClient.get<ProfesseurModelGet>(`${environment.apiUrl}/professeurs/${id}`)
   }
 }

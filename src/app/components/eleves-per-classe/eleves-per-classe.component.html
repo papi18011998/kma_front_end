@@ -25,7 +25,7 @@
     <td>{{eleve.matricule}}</td>
     <td>{{eleve.adresse}}</td>
     <td>
-      <a  title="modifier" style="cursor: pointer" ><i class="bi bi-plus-circle text-primary m-2"></i></a>
+      <a  title="Ajouter une note" (click)="getEleveToEvaluate(eleve.id)" style="cursor: pointer" ><i class="bi bi-plus-circle text-primary m-2"></i></a>
     </td>
     <td></td>
   </tr>
