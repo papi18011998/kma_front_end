@@ -28,4 +28,7 @@ export class ClassesService {
   getElevesOfClasse(id:number):Observable<EleveModelGet[]>{
     return this.httpClient.get<EleveModelGet[]>(`${environment.apiUrl}/classes/${id}/2021-2022`)
   }
+  getElevesByClasse():Observable<string[]>{
+    return this.httpClient.get<string[]>(`${environment.apiUrl}/classes/counteleves`)
+  }
 }
