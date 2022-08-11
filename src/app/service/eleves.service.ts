@@ -21,4 +21,7 @@ export class ElevesService {
   addEleve(eleve: Eleve) {
     return this.httpClient.post<Eleve>(`${environment.apiUrl}/eleves`, eleve)
   }
+  getCountEleves():Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/eleves/count`)
+  }
 }

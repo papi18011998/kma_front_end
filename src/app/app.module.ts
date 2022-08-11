@@ -30,6 +30,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import { ClassesPerProfesseurComponent } from './components/classes-per-professeur/classes-per-professeur.component';
 import { ElevesPerClasseComponent } from './components/eleves-per-classe/eleves-per-classe.component';
 import { EvaluationFormComponent } from './components/evaluation-form/evaluation-form.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { EvaluationFormComponent } from './components/evaluation-form/evaluation
     ProfesseursComponent,
     ClassesPerProfesseurComponent,
     ElevesPerClasseComponent,
-    EvaluationFormComponent
+    EvaluationFormComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
