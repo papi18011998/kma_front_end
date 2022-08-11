@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Chart,registerables} from "chart.js";
 import {ElevesService} from "../../service/eleves.service";
+import {EvaluationService} from "../../service/evaluation.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,14 +11,21 @@ import {ElevesService} from "../../service/eleves.service";
 export class DashboardComponent implements OnInit {
   chartId!:any
   nombreEleves:number = 0
-  constructor(private eleveService:ElevesService) { }
+  mostFrequentEvaluation:number = 0
+  avgEvaluation: number =0;
+  constructor(private eleveService:ElevesService,
+              private evaluationService:EvaluationService) { }
   title = 'Tableau de bord';
   ngOnInit(): void {
     this.chartId = document.getElementById('my_first_chart');
     Chart.register(...registerables);
     this.loadChart();
     this.getCountEleves()
+    this.getMostFrequentEvaluation()
+    this.getAverageEvaluation()
   }
+
+
   getCountEleves(){
     this.eleveService.getCountEleves().subscribe(
       data=>{
@@ -25,9 +33,25 @@ export class DashboardComponent implements OnInit {
       }
     )
   }
+
+  getMostFrequentEvaluation(){
+    this.evaluationService.getMostFrequentEvaluation().subscribe(
+      data=>{
+        this.mostFrequentEvaluation= data
+      }
+    )
+  }
+
+  getAverageEvaluation(){
+    this.evaluationService.getAverageEvaluation().subscribe(
+      data=>{
+        this.avgEvaluation= data
+      }
+    )
+  }
   private loadChart() {
     new Chart(this.chartId, {
-      type: "polarArea",
+      type: "line",
       data: {
         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [{
