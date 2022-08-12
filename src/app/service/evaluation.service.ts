@@ -19,4 +19,7 @@ export class EvaluationService {
   public getAverageEvaluation():Observable<number>{
     return this.httpClient.get<number>(`${environment.apiUrl}/evaluations/avg`)
   }
+  public getToFiveScore():Observable<string[]>{
+    return this.httpClient.get<string[]>(`${environment.apiUrl}/eleves/top`)
+  }
 }
