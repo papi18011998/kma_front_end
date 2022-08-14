@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../service/authentication.service";
 import {NotifierService} from "angular-notifier";
 import {NotificationService} from "../../service/notification.service";
@@ -16,14 +16,20 @@ import {HearderType} from "../../enum/hearder-type";
 })
 export class LoginComponent implements OnInit, OnDestroy {
   private subscription:Subscription[]=[]
-  constructor(private router:Router, private authenticationService:AuthenticationService,
-              private notifier:NotificationService) { }
+  constructor(private router:Router,
+              private authenticationService:AuthenticationService,
+              private notifier:NotificationService,
+              private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     if(this.authenticationService.isUserLoggedIn()){
-      this.router.navigate(['/user/management'])
+      this.router.navigate(['dashboard'])
     }else{
       this.router.navigate(['/login'])
+    }
+    if (this.route.snapshot.url[0].path == 'deconnexion'){
+      this.logout()
+      window.location.href = "login"
     }
   }
   public onLogin(user: User): void {
@@ -55,5 +61,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }else{
       this.notifier.notify(notificationType,"WE HAVE AN ERROR PLEASE TRY AGAIN")
     }
+  }
+  logout(){
+    this.authenticationService.logout()
   }
 }

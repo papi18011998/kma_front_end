@@ -19,7 +19,7 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
-  {path:"user/management", component:UserComponent,canActivate:[AuthGuard]},
+  {path:"deconnexion",component:LoginComponent},
   {path:"admins", component: AdminsComponent,canActivate:[AuthGuard]},
   {path:"admins/add", component:FormAdminComponent,canActivate:[AuthGuard]},
   {path:"utilisateurs/:id", component:FormAdminComponent,canActivate:[AuthGuard]},
@@ -37,7 +37,7 @@ const routes: Routes = [
   {path:"eleves/add",component:FormEleveComponent,canActivate:[AuthGuard]},
   {path:"evaluations",component:EvaluationFormComponent,canActivate:[AuthGuard]},
   {path:"dashboard",component:DashboardComponent,canActivate:[AuthGuard]},
-  {path:'',redirectTo:'/login',pathMatch:'full'}
+  {path:'',redirectTo:'/dashboard',pathMatch:'full'}
 ];
 
 @NgModule({

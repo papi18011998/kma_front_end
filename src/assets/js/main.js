@@ -4,6 +4,7 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+
 (function() {
   "use strict";
 
@@ -317,3 +318,16 @@
   }
 
 })();
+// get Infos user
+let  user = JSON.parse(localStorage.getItem('user'));
+let userInfo = document.getElementById('userInfo')
+let header = document.getElementById('header')
+let userDetails = document.getElementById('userDetails')
+let role = document.getElementById('role')
+if(user){
+  userInfo.innerText = user.prenom + ' ' + user.nom;
+  userDetails.innerText = user.prenom + ' ' + user.nom;
+  role.innerText = user.role;
+}else{
+  header.remove()
+}
