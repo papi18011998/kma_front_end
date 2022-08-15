@@ -6,7 +6,6 @@ import {EvaluationService} from "../../service/evaluation.service";
 import {NotificationService} from "../../service/notification.service";
 import {Evaluation} from "../../model/evaluation";
 import {NotificationType} from "../../enum/notification-type";
-
 @Component({
   selector: 'app-evaluation-form',
   templateUrl: './evaluation-form.component.html',
@@ -60,6 +59,9 @@ export class EvaluationFormComponent implements OnInit {
     this.evaluationService.addEvaluation(evaluation).subscribe({
       next:(data)=>{
         this.notifier.notify(NotificationType.SUCCESS, "Nouvelle note ajoutée !!!")
+        //back to previous page
+        window.history.back()
+
       },
       error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
     })
