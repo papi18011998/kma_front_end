@@ -26,6 +26,7 @@
     <td>{{eleve.matricule}}</td>
     <td>{{eleve.adresse}}</td>
     <td>
+      <a  title="Détails sur l'élève" style="cursor: pointer" (click)="getDetails(eleve.id)"><i class="bi bi-eye text-info m-2"></i></a>
       <a  title="modifier" style="cursor: pointer" ><i class="bi bi-tools text-primary m-2"></i></a>
       <a  [title]="eleve.active?'Archiver':'Désarchiver'" ><i class="bi bi-archive" [ngClass]="eleve.active?'text-danger':'text-success'"></i></a>
     </td>

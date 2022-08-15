@@ -31,6 +31,7 @@ import { ClassesPerProfesseurComponent } from './components/classes-per-professe
 import { ElevesPerClasseComponent } from './components/eleves-per-classe/eleves-per-classe.component';
 import { EvaluationFormComponent } from './components/evaluation-form/evaluation-form.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DetailsEleveComponent } from './components/details-eleve/details-eleve.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ClassesPerProfesseurComponent,
     ElevesPerClasseComponent,
     EvaluationFormComponent,
-    DashboardComponent
+    DashboardComponent,
+    DetailsEleveComponent
   ],
   imports: [
     BrowserModule,

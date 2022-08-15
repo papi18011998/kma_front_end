@@ -24,4 +24,8 @@ export class ElevesService {
   getCountEleves():Observable<number>{
     return this.httpClient.get<number>(`${environment.apiUrl}/eleves/count`)
   }
+
+  getEleve(idEleve: number):Observable<any>{
+    return this.httpClient.get<any>(`${environment.apiUrl}/eleves/${idEleve}`)
+  }
 }

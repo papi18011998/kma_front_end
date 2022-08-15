@@ -43,4 +43,8 @@ export class ElevesPerClasseComponent implements OnInit {
     localStorage.setItem('eleveToEvaluate',JSON.stringify(eleveToEvaluate))
     this.router.navigate(['evaluations'])
   }
+
+  getDetailsEleve(id: number) {
+    this.router.navigate(['eleves/'+id])
+  }
 }
