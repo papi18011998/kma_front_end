@@ -24,7 +24,6 @@ export class DetailsEleveComponent implements OnInit {
     this.eleveService.getEleve(idEleve).subscribe({
       next:(data)=>{
         this.eleve=data
-        console.log(this.eleve)
       },
       error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
     })

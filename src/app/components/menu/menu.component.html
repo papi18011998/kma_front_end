@@ -118,6 +118,13 @@
         </a>
       </li><!-- End Charts Nav -->
     </ng-container>
+    <ng-container>
+      <li class="nav-item" *ngIf=" user && user.role == 'ROLE_PARENT'">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" routerLink="eleves">
+          <i class="bi bi-book"></i><span>Gestion de mes enfants</span>
+        </a>
+      </li>
+    </ng-container>
   </ul>
 
 </aside>

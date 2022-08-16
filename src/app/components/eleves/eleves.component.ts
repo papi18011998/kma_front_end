@@ -3,6 +3,7 @@ import {EleveModelGet} from "../../model/eleve-model-get";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ElevesService} from "../../service/eleves.service";
 import {Router} from "@angular/router";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-eleves',
@@ -12,6 +13,7 @@ import {Router} from "@angular/router";
 export class ElevesComponent implements OnInit {
   eleves!:EleveModelGet[]
   searchForm!:FormGroup
+  user:User = this.getConnectedUser()
   page:number = 1
   constructor(private eleveService:ElevesService,
               private form:FormBuilder,
@@ -24,10 +26,19 @@ export class ElevesComponent implements OnInit {
     })
   }
   public getEleves(){
-    this.eleveService.getEleves().subscribe({
-      next:(data)=>this.eleves=data,
-      error:(err)=>console.log(err)
-    })
+    if(this.user.role == 'ROLE_PARENT'){
+      let idParent = this.user.id
+      this.eleveService.getElevesByParent(idParent).subscribe({
+        next:(data)=>{
+          this.eleves = data._embedded.eleves
+        }
+      })
+    }else{
+      this.eleveService.getEleves().subscribe({
+        next:(data)=>this.eleves=data,
+        error:(err)=>console.log(err)
+      })
+    }
   }
 
   search() {
@@ -36,5 +47,8 @@ export class ElevesComponent implements OnInit {
 
   getDetails(id: number) {
     this.router.navigate(['eleves',id])
+  }
+  getConnectedUser():User{
+    return JSON.parse(localStorage.getItem('user')!)
   }
 }

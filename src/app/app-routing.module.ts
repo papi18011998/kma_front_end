@@ -35,8 +35,8 @@ const routes: Routes = [
   {path:"parents" ,component:ParentsComponent,canActivate:[AuthGuard]},
   {path:"parents/add",component:FormParentComponent,canActivate:[AuthGuard]},
   {path:"eleves" ,component:ElevesComponent,canActivate:[AuthGuard]},
-  {path:"eleves/:id",component: DetailsEleveComponent,canActivate:[AuthGuard]},
   {path:"eleves/add",component:FormEleveComponent,canActivate:[AuthGuard]},
+  {path:"eleves/:id",component: DetailsEleveComponent,canActivate:[AuthGuard]},
   {path:"evaluations",component:EvaluationFormComponent,canActivate:[AuthGuard]},
   {path:"dashboard",component:DashboardComponent,canActivate:[AuthGuard]},
   {path:'',redirectTo:'/dashboard',pathMatch:'full'}

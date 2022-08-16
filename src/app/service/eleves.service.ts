@@ -17,6 +17,9 @@ export class ElevesService {
     })
     return this.httpClient.get<EleveModelGet[]>(`${environment.apiUrl}/eleves`)
   }
+  public getElevesByParent(id:number):Observable<any>{
+    return this.httpClient.get(`${environment.apiUrl}/parents/${id}/eleves`)
+  }
 
   addEleve(eleve: Eleve) {
     return this.httpClient.post<Eleve>(`${environment.apiUrl}/eleves`, eleve)
