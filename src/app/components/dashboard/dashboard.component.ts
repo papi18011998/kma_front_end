@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Chart,registerables} from "chart.js";
+import {Component, OnInit} from '@angular/core';
+import {Chart, registerables} from "chart.js";
 import {ElevesService} from "../../service/eleves.service";
 import {EvaluationService} from "../../service/evaluation.service";
 import {ClassesService} from "../../service/classes.service";
+import {User} from "../../model/user";
+import {ParentService} from "../../service/parent.service";
+import {EleveModelGet} from "../../model/eleve-model-get";
+import {NotificationService} from "../../service/notification.service";
+import {NotificationType} from "../../enum/notification-type";
+import {Evaluation} from "../../model/evaluation";
+import {EvaluationModelGet} from "../../model/evaluation-model-get";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +26,16 @@ export class DashboardComponent implements OnInit {
   values:number[] =[]
   nomEleves:string[]=[]
   noteEleves:number[] = []
+  eleves: EleveModelGet[] =[]
+  evaluations : EvaluationModelGet[] =[]
+  user:User = JSON.parse(localStorage.getItem('user')!)
   constructor(private eleveService:ElevesService,
               private evaluationService:EvaluationService,
-              private classeService:ClassesService) { }
+              private classeService:ClassesService,
+              private parentService : ParentService,
+              private notifier : NotificationService) { }
   title = 'Tableau de bord';
+  stat!: number;
   ngOnInit(): void {
     this.chartId = document.getElementById('my_first_chart');
     this.chartTopFive = document.getElementById('chartTopFive');
@@ -30,17 +43,38 @@ export class DashboardComponent implements OnInit {
     this.getCountEleves()
     this.getMostFrequentEvaluation()
     this.getAverageEvaluation()
-    this.getElevesByClasse()
-    this.getTopFive()
+    if (this.user.role == 'ROLE_ADMIN'){
+      this.getElevesByClasse()
+      this.getTopFive()
+    }
+    if (this.user.role == 'ROLE_PARENT'){
+      this.getElevesByParent()
+    }
   }
 
-
-  getCountEleves(){
-    this.eleveService.getCountEleves().subscribe(
-      data=>{
-        this.nombreEleves= data
+  getElevesByParent(){
+    let userId = this.user.id
+    this.eleveService.getElevesByParent(userId).subscribe({
+      next: data => {
+        this.eleves = data._embedded.eleves
       }
-    )
+    })
+  }
+  getCountEleves(){
+    if (this.user.role == 'ROLE_PARENT'){
+      this.parentService.getCountElevesByParent(this.user.id).subscribe(
+        data=>{
+          this.nombreEleves= data
+        }
+      )
+    }else if(this.user.role == 'ROLE_ADMIN'){
+      this.eleveService.getCountEleves().subscribe(
+        data=>{
+          this.nombreEleves= data
+        }
+      )
+    }
+
   }
 
   getMostFrequentEvaluation(){
@@ -152,5 +186,60 @@ export class DashboardComponent implements OnInit {
 
       }
     )
+  }
+
+  getStats() {
+    let parentId = this.user.id
+    this.parentService.getStatsEleve(parentId,this.stat).subscribe({
+      next:(data)=>{
+        this.evaluations = data
+        this.evaluations.forEach(evaluation=>{
+          this.noteEleves.push(evaluation.note)
+          if (evaluation.matiere.libelle != null) {
+            this.labels.push(evaluation.matiere.libelle)
+          }
+        })
+        // mise en place des stats de l'eleve
+        var chartExist = Chart.getChart(this.chartTopFive)
+        if (chartExist != undefined){
+          chartExist.destroy()
+        }
+        new Chart(this.chartTopFive, {
+          type: "bar",
+          data: {
+            labels: this.labels,
+            datasets: [{
+              label: 'Note de l\'élève',
+              data: this.noteEleves,
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 159, 64)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      },
+      error:(error)=>this.notifier.notify(NotificationType.ERROR, error.error.message)
+    })
   }
 }

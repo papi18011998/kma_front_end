@@ -4,6 +4,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {Parent} from "../model/parent";
+import {Matiere} from "../model/matiere";
+import {Evaluation} from "../model/evaluation";
+import {EvaluationModelGet} from "../model/evaluation-model-get";
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +31,12 @@ export class ParentService {
   public finByCni(cni:string){
     return this.httpClient.get<ParentModelGet>(`${environment.apiUrl}/parents/cni/${cni}`)
   }
+  getCountElevesByParent(id: number):Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/parents/${id}/counteleves`)
+  }
+  getStatsEleve(idParent:number,idEleve:number):Observable<EvaluationModelGet[]>{
+    return this.httpClient.get<EvaluationModelGet[]>(`${environment.apiUrl}/parents/${idParent}/eleves/${idEleve}/evaluations`)
+  }
+
+
 }

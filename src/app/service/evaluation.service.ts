@@ -14,7 +14,13 @@ export class EvaluationService {
     return this.httpClient.post<any>(`${environment.apiUrl}/evaluations`,evaluation)
   }
   public getMostFrequentEvaluation():Observable<number>{
-    return this.httpClient.get<number>(`${environment.apiUrl}/evaluations/mostfrequent`)
+    let userRole:string= JSON.parse(localStorage.getItem('user')!).role
+    let userId:number= JSON.parse(localStorage.getItem('user')!).id
+    if (userRole == 'ROLE_ADMIN'){
+      return this.httpClient.get<number>(`${environment.apiUrl}/evaluations/mostfrequent`)
+    }else {
+      return this.httpClient.get<number>(`${environment.apiUrl}/parents/${userId}/eleves/maxscore`)
+    }
   }
   public getAverageEvaluation():Observable<number>{
     return this.httpClient.get<number>(`${environment.apiUrl}/evaluations/avg`)

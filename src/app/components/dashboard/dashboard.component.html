@@ -9,9 +9,17 @@
   </div>
   <div class="col-md-3 shadow rounded mt-2 p-5">
     <div class="col-12 text-center" style="font-weight: bolder;font-size: 32px">{{mostFrequentEvaluation}} /20</div>
-    <div class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Note Fréquente</div>
+    <div *ngIf="user.role != 'ROLE_PARENT';else elseBloc" class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Note Fréquente</div>
+    <ng-template #elseBloc>
+      <div class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Plus grande note</div>
+    </ng-template>
   </div>
 </div>
+<label class="h2 mt-5">Sélectionez un élève </label>
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" (change)="getStats()" [(ngModel)]="stat">
+  <option selected>Selectionnez un élève</option>
+  <option *ngFor="let eleve of eleves" value="{{eleve.id}}" >{{eleve.prenom}} {{eleve.nom}}</option>
+</select>
 <div class="d-flex justify-content-between mt-5" style="width: 500px;height: 500px;">
   <canvas id="my_first_chart" style="width: 400px;height: 400px;"></canvas>
   <canvas id="chartTopFive" style="width: 400px;height: 400px;"></canvas>
