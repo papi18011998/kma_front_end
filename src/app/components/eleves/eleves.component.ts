@@ -4,6 +4,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {ElevesService} from "../../service/eleves.service";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
+import Swal from "sweetalert2";
+import {NotificationType} from "../../enum/notification-type";
+import {AdminsService} from "../../service/admins.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-eleves',
@@ -17,7 +21,9 @@ export class ElevesComponent implements OnInit {
   page:number = 1
   constructor(private eleveService:ElevesService,
               private form:FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private adminService : AdminsService,
+              private notifier : NotificationService) { }
 
   ngOnInit(): void {
     this.getEleves()
@@ -50,5 +56,28 @@ export class ElevesComponent implements OnInit {
   }
   getConnectedUser():User{
     return JSON.parse(localStorage.getItem('user')!)
+  }
+
+  changeStaus(id: number) {
+    Swal.fire({
+      title: 'Voulez vous vraiment changer le status',
+      text: "Cette opération est réversible !!!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#218838',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.changeStatus(id).subscribe({
+          next:()=> {
+            this.getEleves()
+            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
+          },
+          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+        })
+      }
+    })
   }
 }

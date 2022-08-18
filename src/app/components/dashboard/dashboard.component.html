@@ -15,8 +15,8 @@
     </ng-template>
   </div>
 </div>
-<label class="h2 mt-5">Sélectionez un élève </label>
-<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" (change)="getStats()" [(ngModel)]="stat">
+<label class="h2 mt-5" *ngIf="user.role == 'ROLE_PARENT'">Sélectionez un élève </label>
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" (change)="getStats()" [(ngModel)]="stat" *ngIf="user.role == 'ROLE_PARENT'">
   <option selected>Selectionnez un élève</option>
   <option *ngFor="let eleve of eleves" value="{{eleve.id}}" >{{eleve.prenom}} {{eleve.nom}}</option>
 </select>

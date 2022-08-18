@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ProfesseursService} from "../../service/professeurs.service";
-import {AdminsService} from "../../service/admins.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import Swal from "sweetalert2";
+import {NotificationType} from "../../enum/notification-type";
+import {AdminsService} from "../../service/admins.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-professeurs',
@@ -11,9 +14,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class ProfesseursComponent implements OnInit {
   constructor(private professeurService:ProfesseursService,
-              private adminsService:AdminsService,
               private router:Router,
-              private form:FormBuilder) { }
+              private form:FormBuilder,
+              private adminService : AdminsService,
+              private notifier : NotificationService) { }
   professeurs!:any
   page:number =1
   searchForm!:FormGroup
@@ -32,14 +36,27 @@ export class ProfesseursComponent implements OnInit {
     })
   }
 
-  changeStatus(id:number) {
-    let response = confirm("Voulez-vous vraiment changer le status de cet utilisateur ?")
-    if (response){
-      this.adminsService.changeStatus(id).subscribe({
-        next:(data)=>{this.getProfesseurs()},
-        error:(error)=>{console.log(error)}
-      })
-    }
+  changeStaus(id: number) {
+    Swal.fire({
+      title: 'Voulez vous vraiment changer le status',
+      text: "Cette opération est réversible !!!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#218838',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService.changeStatus(id).subscribe({
+          next:()=> {
+            this.getProfesseurs()
+            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
+          },
+          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+        })
+      }
+    })
   }
 
   goTo(id:number) {
