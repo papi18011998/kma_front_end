@@ -7,6 +7,7 @@ import {Parent} from "../model/parent";
 import {Matiere} from "../model/matiere";
 import {Evaluation} from "../model/evaluation";
 import {EvaluationModelGet} from "../model/evaluation-model-get";
+import {Classe} from "../model/classe";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,10 @@ export class ParentService {
     return this.httpClient.get<ParentModelGet[]>(`${environment.apiUrl}/parents`)
   }
 
-  searchParent(nom: string) {
+  searchParent(indice: string) {
+    return this.parents.filter((parent) => {
+      parent.nom.toLowerCase().includes(indice.toLowerCase())
+    })
   }
   public addParent(parent:Parent){
     return this.httpClient.post(`${environment.apiUrl}/parents`,parent)

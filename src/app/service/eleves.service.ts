@@ -9,7 +9,7 @@ import {Eleve} from "../model/eleve";
   providedIn: 'root'
 })
 export class ElevesService {
-  eleves!: EleveModelGet[]|any
+  eleves!: EleveModelGet[]
   constructor(private httpClient: HttpClient) { }
   public getEleves():Observable<EleveModelGet[]>{
     this.httpClient.get<EleveModelGet[]>(`${environment.apiUrl}/eleves`).subscribe({
@@ -30,5 +30,9 @@ export class ElevesService {
 
   getEleve(idEleve: number):Observable<any>{
     return this.httpClient.get<any>(`${environment.apiUrl}/eleves/${idEleve}`)
+  }
+
+  searchEleve(nom:string) {
+    return this.eleves.filter((eleve)=>eleve.nom.toLowerCase().includes(nom.toLowerCase()));
   }
 }

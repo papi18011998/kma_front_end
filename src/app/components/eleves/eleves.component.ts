@@ -48,7 +48,9 @@ export class ElevesComponent implements OnInit {
   }
 
   search() {
-
+    if (this.searchForm.value.nom == null)
+      return
+    this.eleves = this.eleveService.searchEleve(this.searchForm.value.nom)
   }
 
   getDetails(id: number) {
@@ -58,7 +60,7 @@ export class ElevesComponent implements OnInit {
     return JSON.parse(localStorage.getItem('user')!)
   }
 
-  changeStaus(id: number) {
+  changeStatus(id: number) {
     Swal.fire({
       title: 'Voulez vous vraiment changer le status',
       text: "Cette opération est réversible !!!",

@@ -36,7 +36,7 @@ export class ProfesseursComponent implements OnInit {
     })
   }
 
-  changeStaus(id: number) {
+  changeStatus(id: number) {
     Swal.fire({
       title: 'Voulez vous vraiment changer le status',
       text: "Cette opération est réversible !!!",

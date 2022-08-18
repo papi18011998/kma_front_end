@@ -26,7 +26,7 @@ export class ParentsComponent implements OnInit {
   ngOnInit(): void {
     this.getParents()
     this.searchForm = this.form.group({
-      nom:this.form.control(null)
+      indice:this.form.control(null)
     })
   }
   public getParents(){
@@ -36,11 +36,12 @@ export class ParentsComponent implements OnInit {
   }
 
   search() {
-    if (this.searchForm.value.nom == null)
+    if (this.searchForm.value.indice == null || this.searchForm.value.indice.trim() =='')
       return
+    this.parents = this.parentService.searchParent(this.searchForm.value.indice)
   }
 
-  changeStaus(id: number) {
+  changeStatus(id: number) {
     Swal.fire({
       title: 'Voulez vous vraiment changer le status',
       text: "Cette opération est réversible !!!",

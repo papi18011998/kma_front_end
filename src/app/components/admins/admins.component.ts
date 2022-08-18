@@ -40,7 +40,7 @@ export class AdminsComponent implements OnInit {
     this.admins = this.adminsService.searchAdmin(this.searchForm.value.nom.toLowerCase())
   }
 
-  changeStaus(id: number) {
+  changeStatus(id: number) {
     Swal.fire({
       title: 'Voulez vous vraiment changer le status',
       text: "Cette opération est réversible !!!",
