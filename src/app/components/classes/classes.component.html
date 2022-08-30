@@ -8,7 +8,7 @@
       <button type="submit" class="btn btn-rounded-right border btn-outline-primary"><i class="bi bi-search"></i></button>
     </div>
   </form>
-  <a class="btn btn-primary d-flex"><i class="bi bi-plus-circle"></i> Nouveau</a>
+  <a class="btn btn-primary d-flex" data-bs-toggle="modal" data-bs-target="#mymodal"><i class="bi bi-plus-circle"></i> Nouveau</a>
 </div>
 <table id="example" class="display table">
   <thead >
@@ -32,3 +32,29 @@
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>
 
+
+<!-- Button trigger modal -->
+<div class="modal fade" id="mymodal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Formulaire d'ajout d'une classe</h2>
+        <button type="button"  class="close btn btn-danger rounded-circle" data-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+      <form [formGroup]="classInfo" (submit)="addClasse()">
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="libelle" class="col-form-label">Libelle de la classe*</label>
+            <input type="text" name="libelle" class="form-control" id="libelle" placeholder="Ex: CI A, Terminale S2D" formControlName="libelle"/>
+          </div>
+          <div class="text-danger" *ngIf="libelle && libelle.touched && libelle.errors">Format de saisi incorrect</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="classInfo.invalid">Enregistrer</button>
+      </div>
+      </form>
+  </div>
+</div>

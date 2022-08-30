@@ -1,10 +1,9 @@
 /**
-* Template Name: NiceAdmin - v2.2.2
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
+ * Template Name: NiceAdmin - v2.2.2
+ * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+ * Author: BootstrapMade.com
+ * License: https://bootstrapmade.com/license/
+ */
 (function() {
   "use strict";
 
@@ -142,22 +141,22 @@
           }],
           ["bold", "italic", "underline", "strike"],
           [{
-              color: []
-            },
+            color: []
+          },
             {
               background: []
             }
           ],
           [{
-              script: "super"
-            },
+            script: "super"
+          },
             {
               script: "sub"
             }
           ],
           [{
-              list: "ordered"
-            },
+            list: "ordered"
+          },
             {
               list: "bullet"
             },
@@ -199,27 +198,27 @@
     autosave_retention: '2m',
     image_advtab: true,
     link_list: [{
-        title: 'My page 1',
-        value: 'https://www.tiny.cloud'
-      },
+      title: 'My page 1',
+      value: 'https://www.tiny.cloud'
+    },
       {
         title: 'My page 2',
         value: 'http://www.moxiecode.com'
       }
     ],
     image_list: [{
-        title: 'My page 1',
-        value: 'https://www.tiny.cloud'
-      },
+      title: 'My page 1',
+      value: 'https://www.tiny.cloud'
+    },
       {
         title: 'My page 2',
         value: 'http://www.moxiecode.com'
       }
     ],
     image_class_list: [{
-        title: 'None',
-        value: ''
-      },
+      title: 'None',
+      value: ''
+    },
       {
         title: 'Some class',
         value: 'class-name'
@@ -250,10 +249,10 @@
       }
     },
     templates: [{
-        title: 'New Table',
-        description: 'creates a new table',
-        content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
-      },
+      title: 'New Table',
+      description: 'creates a new table',
+      content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
+    },
       {
         title: 'Starting my story',
         description: 'A cure for writers block',
@@ -318,16 +317,16 @@
   }
 
 })();
-// get Infos user
-let  user = JSON.parse(localStorage.getItem('user'));
-let userInfo = document.getElementById('userInfo')
-let header = document.getElementById('header')
-let userDetails = document.getElementById('userDetails')
-let role = document.getElementById('role')
-if(user){
-  userInfo.innerText = user.prenom + ' ' + user.nom;
-  userDetails.innerText = user.prenom + ' ' + user.nom;
-  role.innerText = user.role;
-}else{
-  header.remove()
+let entete = document.getElementById("header")
+let user = JSON.parse(localStorage.getItem('user'))
+if (user == null) {
+  entete.remove()
+}
+else{
+  let userCredentials = document.getElementById('userInfo')
+  let userDetails = document.getElementById('userDetails')
+  let userRole = document.getElementById('role')
+  userCredentials.innerText = user.prenom +' '+ user.nom
+  userDetails.innerText = user.prenom +' '+ user.nom
+  userRole.innerText = user.role
 }

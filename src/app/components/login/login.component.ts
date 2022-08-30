@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           // this.router.navigateByUrl('/user/management');
         },
         (errorResponse: HttpErrorResponse) => {
+          console.log(errorResponse)
           this.sendErrorNotification(NotificationType.ERROR, errorResponse.error.message);
         }
       )

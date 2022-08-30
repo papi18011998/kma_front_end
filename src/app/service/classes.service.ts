@@ -31,4 +31,8 @@ export class ClassesService {
   getElevesByClasse():Observable<string[]>{
     return this.httpClient.get<string[]>(`${environment.apiUrl}/classes/counteleves`)
   }
+
+  addClasse(classe: Classe):Observable<Classe> {
+    return this.httpClient.post<Classe>(`${environment.apiUrl}/classes`,classe)
+  }
 }
