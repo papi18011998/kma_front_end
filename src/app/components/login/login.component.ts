@@ -4,7 +4,7 @@ import {AuthenticationService} from "../../service/authentication.service";
 import {NotifierService} from "angular-notifier";
 import {NotificationService} from "../../service/notification.service";
 import {User} from "../../model/user";
-import {Subscription} from "rxjs";
+import {interval, Subscription, take} from "rxjs";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {NotificationType} from "../../enum/notification-type";
 import {HearderType} from "../../enum/hearder-type";
@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     if (this.route.snapshot.url[0].path == 'deconnexion'){
       this.logout()
-      window.location.href = "login"
     }
   }
   public onLogin(user: User): void {
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.authenticationService.saveToken(token!);
           this.authenticationService.addUserToLocalCache(response.body!);
           window.location.href = "dashboard"
-          // this.router.navigateByUrl('/user/management');
         },
         (errorResponse: HttpErrorResponse) => {
           console.log(errorResponse)
@@ -60,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if(message){
       this.notifier.notify(notificationType,message)
     }else{
-      this.notifier.notify(notificationType,"WE HAVE AN ERROR PLEASE TRY AGAIN")
+      this.notifier.notify(notificationType,"Un problème est survenu lors de l'authentification")
     }
   }
   logout(){

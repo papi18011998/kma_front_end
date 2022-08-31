@@ -1,7 +1,7 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link " routerLink="dashboard">
+      <a class="nav-link " [routerLink]="['/dashboard']">
         <i class="bi bi-grid"></i>
         <span>Tableau de bord</span>
       </a>
@@ -13,12 +13,12 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a routerLink="/admins">
+            <a [routerLink]="['/admins']">
               <i class="bi bi-list"></i><span>Liste des admins</span>
             </a>
           </li>
           <li>
-            <a  routerLink="/admins/add">
+            <a  [routerLink]="['/admins/add']">
               <i class="bi bi-person-plus"></i><span>Ajouter un admin</span>
             </a>
           </li>
@@ -30,12 +30,12 @@
         </a>
         <ul id="forms-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a routerLink="parents">
+            <a [routerLink]="['/parents']">
               <i class="bi bi-list"></i><span>Liste des parents</span>
             </a>
           </li>
           <li>
-            <a routerLink="parents/add">
+            <a [routerLink]="['/parents/add']">
               <i class="bi bi-person-plus"></i><span>Ajouter un parent</span>
             </a>
           </li>
@@ -47,12 +47,12 @@
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a routerLink="eleves">
+            <a [routerLink]="['/eleves']">
               <i class="bi bi-list"></i><span>Liste des élèves</span>
             </a>
           </li>
           <li>
-            <a routerLink="eleves/add">
+            <a [routerLink]="['/eleves/add']">
               <i class="bi bi-person-plus"></i><span>Ajouter un élève</span>
             </a>
           </li>
@@ -64,12 +64,12 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a routerLink="/professeurs">
+            <a [routerLink]="['/professeurs']">
               <i class="bi bi-list"></i><span>Liste des professeurs</span>
             </a>
           </li>
           <li>
-            <a routerLink="professeurs/add" class="bi bi-arrow-up-short">
+            <a [routerLink]="['/professeurs/add']" class="bi bi-arrow-up-short">
               <i class="bi bi-person-plus"></i><span>Ajouter un professeur</span>
             </a>
           </li>
@@ -81,13 +81,8 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a routerLink="/classes">
+            <a [routerLink]="['/classes']">
               <i class="bi bi-list"></i><span>Liste des classes</span>
-            </a>
-          </li>
-          <li>
-            <a href="charts-apexcharts.html">
-              <i class="bi bi-book-fill"></i><span>Ajouter une classe</span>
             </a>
           </li>
           <li>
@@ -103,28 +98,28 @@
               <i class="bi bi-list"></i><span>Liste des matières</span>
             </a>
           </li>
-          <li>
-            <a href="icons-remix.html">
-              <i class="bi bi-stickies-fill"></i><span>Ajouter une matière</span>
-            </a>
-          </li>
         </ul>
       </li><!-- End Icons Nav -->
     </ng-container>
     <ng-container *ngIf=" user && user.role == 'ROLE_PROFESSEUR'">
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" routerLink="professeurs/{{user.id}}/classes/2021-2022">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" [routerLink]="['/professeurs',user.id,'classes','2021-2022']">
           <i class="bi bi-book"></i><span>Gestion de mes classes</span>
         </a>
       </li><!-- End Charts Nav -->
     </ng-container>
     <ng-container>
       <li class="nav-item" *ngIf=" user && user.role == 'ROLE_PARENT'">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" routerLink="eleves">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" [routerLink]="['/eleves']">
           <i class="bi bi-book"></i><span>Gestion de mes enfants</span>
         </a>
       </li>
     </ng-container>
+    <li class="nav-item">
+      <a class="nav-link collapsed"  [routerLink]="['/deconnexion']">
+        <i class="bi bi-box-arrow-left"></i><span>Déconnexion</span>
+      </a>
+    </li>
   </ul>
 
 </aside>

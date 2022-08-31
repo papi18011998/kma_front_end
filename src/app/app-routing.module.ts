@@ -20,7 +20,7 @@ import {DetailsEleveComponent} from "./components/details-eleve/details-eleve.co
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
-  {path:"deconnexion",component:LoginComponent},
+  {path:"deconnexion",component:LoginComponent,canActivate:[AuthGuard]},
   {path:"admins", component: AdminsComponent,canActivate:[AuthGuard]},
   {path:"admins/add", component:FormAdminComponent,canActivate:[AuthGuard]},
   {path:"utilisateurs/:id", component:FormAdminComponent,canActivate:[AuthGuard]},

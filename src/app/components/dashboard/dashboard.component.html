@@ -1,17 +1,18 @@
+<app-menu></app-menu>
 <div class="row justify-content-between">
-  <div class="col-md-3 shadow rounded mt-2 p-5">
-    <div class="col-12 text-center" style="font-weight: bolder;font-size: 32px">{{nombreEleves}}</div>
-    <div class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Elèves</div>
+  <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
+    <div class="col-12 text-center text-bolder" >{{nombreEleves}}</div>
+    <div class="col-12 text-center bg-main mt-4 label-bordered">Elèves</div>
   </div>
-  <div class="col-md-3 shadow rounded mt-2 p-5">
-    <div class="col-12 text-center" style="font-weight: bolder;font-size: 32px">{{avgEvaluation}} /20</div>
-    <div class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Moyenne général</div>
+  <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
+    <div class="col-12 text-center text-bolder" >{{avgEvaluation}} /20</div>
+    <div class="col-12 text-center bg-main mt-4 label-bordered">Moyenne général</div>
   </div>
-  <div class="col-md-3 shadow rounded mt-2 p-5">
-    <div class="col-12 text-center" style="font-weight: bolder;font-size: 32px">{{mostFrequentEvaluation}} /20</div>
-    <div *ngIf="user.role != 'ROLE_PARENT';else elseBloc" class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Note Fréquente</div>
+  <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
+    <div class="col-12 text-center text-bolder" style="font-weight: bolder;font-size: 32px">{{mostFrequentEvaluation}} /20</div>
+    <div *ngIf="user.role != 'ROLE_PARENT';else elseBloc" class="col-12 text-center bg-main mt-4 label-bordered">Note Fréquente</div>
     <ng-template #elseBloc>
-      <div class="col-12 text-center bg-main mt-4" style="font-weight: bolder;font-size: 20px" >Plus grande note</div>
+      <div class="col-12 text-center bg-main mt-4 label-bordered" style="font-weight: bolder;font-size: 20px" >Plus grande note</div>
     </ng-template>
   </div>
 </div>

@@ -52,7 +52,7 @@ import { DetailsEleveComponent } from './components/details-eleve/details-eleve.
     ElevesPerClasseComponent,
     EvaluationFormComponent,
     DashboardComponent,
-    DetailsEleveComponent
+    DetailsEleveComponent,
   ],
   imports: [
     BrowserModule,
