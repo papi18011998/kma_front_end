@@ -5,6 +5,7 @@ import {ClassesService} from "../../service/classes.service";
 import {Classe} from "../../model/classe";
 import Swal from "sweetalert2";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-form-classe',
@@ -36,7 +37,7 @@ export class FormClasseComponent implements OnInit {
           titleText:"Classe ajoutée avec succès",
           icon: 'success'
         }).then(()=>{
-          this.notificationService.successOrFailOperation('','mycssSnackbarGreen','classes')
+          this.notificationService.successOrFailOperation('',Constants.SUCCESS_STYLE,'classes')
           this.matDialogRef.close()
         })
       },

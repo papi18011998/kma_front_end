@@ -5,11 +5,10 @@ import {ProfesseursService} from "../../service/professeurs.service";
 import {EvaluationService} from "../../service/evaluation.service";
 import {NotificationService} from "../../service/notification.service";
 import {Evaluation} from "../../model/evaluation";
-import {NotificationType} from "../../enum/notification-type";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NotificationsService} from "../../service/notifications.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router} from "@angular/router";
+import {Constants} from "../../enum/constants";
 @Component({
   selector: 'app-evaluation-form',
   templateUrl: './evaluation-form.component.html',
@@ -70,7 +69,7 @@ export class EvaluationFormComponent implements OnInit {
       //modfication de note
         this.evaluationService.updateEvaluation(this.idEvaluation,evaluation).subscribe({
           next:(data)=>{
-            this.notificationService.successOrFailOperation('Note modifiée avec succès !!!','mycssSnackbarGreen',`eleves/${evaluation.idEleve}`)
+            this.notificationService.successOrFailOperation(Constants.NOTE_MODIFIE,Constants.SUCCESS_STYLE,`eleves/${evaluation.idEleve}`)
             // fermeture du modal
             this.matDialogRef.close()
             // suppression du localStorage de modification
@@ -90,7 +89,7 @@ export class EvaluationFormComponent implements OnInit {
       //Ajout de note
       this.evaluationService.addEvaluation(evaluation).subscribe({
         next:()=>{
-          this.notificationService.successOrFailOperation('Note ajoutée avec succès !!!','mycssSnackbarGreen',`eleves/${evaluation.idEleve}`)
+          this.notificationService.successOrFailOperation(Constants.NOTE_AJOUTE,Constants.SUCCESS_STYLE,`eleves/${evaluation.idEleve}`)
           // delete eleveToEvaluate from localStorage
           localStorage.removeItem('eleveToEvaluate')
           //close modal

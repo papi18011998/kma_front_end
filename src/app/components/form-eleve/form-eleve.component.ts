@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 import {Eleve} from "../../model/eleve";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 
 @Component({
@@ -119,11 +120,11 @@ export class FormEleveComponent implements OnInit {
       }
       this.eleveService.addEleve(eleve).subscribe({
         next: () => {
-          this.notificationService.successOrFailOperation("Elève ajouté avec succès","mycssSnackbarGreen","eleves")
+          this.notificationService.successOrFailOperation(Constants.ELEVE_AJOUTE,Constants.SUCCESS_STYLE,"eleves")
           this.matDialogRef.close()
         },
         error: (error) => {
-          this.notificationService.successOrFailOperation(error.error.message,"mycssSnackbarRed","eleves")
+          this.notificationService.successOrFailOperation(error.error.message,Constants.ERROR_STYLE,"eleves")
           this.matDialogRef.close()
         }
       })

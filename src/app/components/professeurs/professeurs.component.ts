@@ -3,12 +3,11 @@ import {ProfesseursService} from "../../service/professeurs.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
-import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
-import {NotificationService} from "../../service/notification.service";
 import {MatDialog} from "@angular/material/dialog";
-import {FormParentComponent} from "../form-parent/form-parent.component";
 import {FormProfesseurComponent} from "../form-professeur/form-professeur.component";
+import {ProfesseurModelGet} from "../../model/professeur-model-get";
+import {NotificationsService} from "../../service/notifications.service";
 
 @Component({
   selector: 'app-professeurs',
@@ -20,9 +19,9 @@ export class ProfesseursComponent implements OnInit {
               private router:Router,
               private form:FormBuilder,
               private adminService : AdminsService,
-              private notifier : NotificationService,
-              private matDialog: MatDialog) { }
-  professeurs!:any
+              private matDialog: MatDialog,
+              private notificationService: NotificationsService) { }
+  professeurs!: ProfesseurModelGet[]
   page:number =1
   searchForm!:FormGroup
   ngOnInit(): void {
@@ -54,10 +53,9 @@ export class ProfesseursComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminService.changeStatus(id).subscribe({
           next:()=> {
-            this.getProfesseurs()
-            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
+            this.notificationService.successOrFailOperation('Profil modifié avec succès !!!','mycssSnackbarGreen','professeurs')
           },
-          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+          error:(err)=>this.notificationService.successOrFailOperation(err.error.message,'mycssSnackbarRed','professeurs')
         })
       }
     })

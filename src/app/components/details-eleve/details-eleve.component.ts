@@ -1,10 +1,10 @@
 import {Component,OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ElevesService} from "../../service/eleves.service";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
 import {MatDialog} from "@angular/material/dialog";
 import {EvaluationFormComponent} from "../evaluation-form/evaluation-form.component";
+import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-details-eleve',
@@ -16,7 +16,7 @@ export class DetailsEleveComponent implements OnInit {
   eleve:any
   constructor(private route : ActivatedRoute,
               private eleveService : ElevesService,
-              private notifier : NotificationService,
+              private notificationService : NotificationsService,
               private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class DetailsEleveComponent implements OnInit {
         this.eleve=data
         localStorage.setItem('bulletin',JSON.stringify(this.eleve))
       },
-      error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+      error:(err)=>this.notificationService.successOrFailOperation(err.error.message,Constants.ERROR_STYLE,'')
     })
   }
 

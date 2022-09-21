@@ -8,10 +8,9 @@ import {ClassesService} from "../../service/classes.service";
 import {AdminsService} from "../../service/admins.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Professeur} from "../../model/professeur";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-form-professeur',
@@ -37,7 +36,6 @@ export class FormProfesseurComponent implements OnInit {
               private adminService:AdminsService,
               private route:Router,
               private routeParams:ActivatedRoute,
-              private notifier:NotificationService,
               public matDialogRef: MatDialogRef<FormProfesseurComponent>,
               private notificationService: NotificationsService) { }
 
@@ -121,8 +119,7 @@ export class FormProfesseurComponent implements OnInit {
         }
       }
   }
-  async submitProfesseur() {
-
+  submitProfesseur() {
     if (this.is_update){
       //Modification de professeur
       const professeur:Professeur ={
@@ -151,11 +148,11 @@ export class FormProfesseurComponent implements OnInit {
       this.professeurService.updateProfesseur(professeur).subscribe({
         next:()=>{
           localStorage.removeItem('professeur')
-          this.notificationService.successOrFailOperation("Professeur modifié avec succès","mycssSnackbarGreen","professeurs")
+          this.notificationService.successOrFailOperation(Constants.PROFESSEUR_MODIFIE,Constants.SUCCESS_STYLE,"professeurs")
           this.matDialogRef.close()
         },
         error:(err)=> {
-          this.notificationService.successOrFailOperation(err.error.message, "mycssSnackbarRed", "professeurs")
+          this.notificationService.successOrFailOperation(err.error.message, Constants.ERROR_STYLE, "professeurs")
           this.matDialogRef.close()
         }
 
@@ -187,11 +184,11 @@ export class FormProfesseurComponent implements OnInit {
       if (!this.existingLogin && !this.existingTelephone) {
         this.professeurService.addProfesseur(professeur).subscribe({
           next: () => {
-            this.notificationService.successOrFailOperation("Professeur ajouté avec succès","mycssSnackbarGreen","professeurs")
+            this.notificationService.successOrFailOperation(Constants.PROFESSEUR_AJOUTE,Constants.SUCCESS_STYLE,"professeurs")
             this.matDialogRef.close()
           },
           error:(err)=> {
-            this.notificationService.successOrFailOperation(err.error.message, "mycssSnackbarRed", "professeurs")
+            this.notificationService.successOrFailOperation(err.error.message, Constants.SUCCESS_STYLE, "professeurs")
             this.matDialogRef.close()
           }
         });

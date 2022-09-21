@@ -7,7 +7,7 @@ export interface ProfesseurModelGet {
   nom:string
   userName:string
   adresse	:string
-  active	:string
+  active	:boolean
   genre:Genre
   telephone:string
   date_prise_fonction:Date

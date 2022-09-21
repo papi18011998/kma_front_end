@@ -8,6 +8,7 @@ import {ParentService} from "../../service/parent.service";
 import {Parent} from "../../model/parent";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 
 @Component({
@@ -115,11 +116,11 @@ export class FormParentComponent implements OnInit {
     })
     this.parentService.addParent(parent).subscribe({
       next:()=>{
-        this.noticationService.successOrFailOperation('Parent et élève ajouté avec succès !!!','mycssSnackbarGreen','parents')
+        this.noticationService.successOrFailOperation(Constants.PARENT_ET_ELEVE_AJOUTE,Constants.SUCCESS_STYLE,'parents')
         this.matDialogRef.close()
       },
       error:error => {
-        this.noticationService.successOrFailOperation(error.eroor.message,'mycssSnackbarRed','parents')
+        this.noticationService.successOrFailOperation(error.eroor.message,Constants.ERROR_STYLE,'parents')
         console.log(error)
       }
     })

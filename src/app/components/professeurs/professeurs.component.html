@@ -31,7 +31,7 @@
 
     <td>
       <a  title="modifier" style="cursor: pointer" (click)="goTo(professeur.id)"><i class="bi bi-tools text-primary m-2"></i></a>
-      <a  [title]="professeur.is_active?'Archiver':'Désarchiver'" (click)="changeStatus(professeur.id)"><i class="bi bi-archive" [ngClass]="professeur.is_active?'text-danger':'text-success'"></i></a>
+      <a  [title]="professeur.active?'Archiver':'Désarchiver'" (click)="changeStatus(professeur.id)"><i class="bi bi-archive" [ngClass]="professeur.active?'text-danger':'text-success'"></i></a>
     </td>
     <td></td>
   </tr>

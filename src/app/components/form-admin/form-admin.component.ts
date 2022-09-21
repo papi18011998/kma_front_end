@@ -5,6 +5,7 @@ import {Genre} from "../../model/genre";
 import {Admin} from "../../model/admin";
 import {MatDialogRef} from "@angular/material/dialog";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-form-admin',
@@ -90,11 +91,11 @@ export class FormAdminComponent implements OnInit {
       await this.adminService.updateAdmin(admin).subscribe({
         next: () =>{
           localStorage.removeItem('admin')
-          this.notificationService.successOrFailOperation('Administrateur modifié avec succès !!!','mycssSnackbarGreen','admins')
+          this.notificationService.successOrFailOperation(Constants.ADMIN_MODIFIE,Constants.SUCCESS_STYLE,'admins')
           this.matDialogRef.close()
         },
         error:(error) =>{
-          this.notificationService.successOrFailOperation(error.error.message,'mycssSnackbarRed','admins')
+          this.notificationService.successOrFailOperation(error.error.message,Constants.ERROR_STYLE,'admins')
         }
       })
     }
@@ -117,11 +118,11 @@ export class FormAdminComponent implements OnInit {
       if (!this.existingLogin && !this.existingTelephone) {
         this.adminService.addAdmin(admin).subscribe({
           next: () => {
-            this.notificationService.successOrFailOperation('Administrateur ajouté avec succès !!!','mycssSnackbarGreen','admins')
+            this.notificationService.successOrFailOperation(Constants.ADMIN_AJOUTE,Constants.SUCCESS_STYLE,'admins')
             this.matDialogRef.close()
           },
           error:(err)=>{
-            this.notificationService.successOrFailOperation(err.error.message,'mycssSnackbarRed','admins')
+            this.notificationService.successOrFailOperation(err.error.message,Constants.ERROR_STYLE,'admins')
           }
         });
       }

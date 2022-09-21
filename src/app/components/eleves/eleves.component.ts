@@ -5,12 +5,11 @@ import {ElevesService} from "../../service/eleves.service";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import Swal from "sweetalert2";
-import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
-import {NotificationService} from "../../service/notification.service";
-import {FormAdminComponent} from "../form-admin/form-admin.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormEleveComponent} from "../form-eleve/form-eleve.component";
+import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-eleves',
@@ -26,7 +25,7 @@ export class ElevesComponent implements OnInit {
               private form:FormBuilder,
               private router: Router,
               private adminService : AdminsService,
-              private notifier : NotificationService,
+              private notificationService: NotificationsService,
               private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -78,10 +77,9 @@ export class ElevesComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminService.changeStatus(id).subscribe({
           next:()=> {
-            this.getEleves()
-            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
+            this.notificationService.successOrFailOperation(Constants.PROFIL_MODIFIE,Constants.SUCCESS_STYLE,'eleves')
           },
-          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+          error:(err)=>this.notificationService.successOrFailOperation(err.error.message,Constants.ERROR_STYLE,'eleves')
         })
       }
     })

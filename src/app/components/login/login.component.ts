@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../service/authentication.service";
-import {NotifierService} from "angular-notifier";
 import {NotificationService} from "../../service/notification.service";
 import {User} from "../../model/user";
-import {interval, Subscription, take} from "rxjs";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {NotificationType} from "../../enum/notification-type";
+import {Subscription} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 import {HearderType} from "../../enum/hearder-type";
+import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-login',
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscription:Subscription[]=[]
   constructor(private router:Router,
               private authenticationService:AuthenticationService,
-              private notifier:NotificationService,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private notificationService:NotificationsService) { }
 
   ngOnInit(): void {
     if(this.authenticationService.isUserLoggedIn()){
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         (errorResponse: HttpErrorResponse) => {
           console.log(errorResponse)
-          this.sendErrorNotification(NotificationType.ERROR, errorResponse.error.message);
+          this.sendErrorNotification(Constants.ERROR_STYLE, errorResponse.error.message);
         }
       )
     );
@@ -55,11 +55,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
   }
 
-  private sendErrorNotification(notificationType: NotificationType, message: string) {
+  private sendErrorNotification(constant: Constants, message: string) {
     if(message){
-      this.notifier.notify(notificationType,message)
+      this.notificationService.successOrFailOperation(message,constant,'')
     }else{
-      this.notifier.notify(notificationType,"Un problème est survenu lors de l'authentification")
+      this.notificationService.successOrFailOperation(Constants.ERROR_OCCURED,constant,'')
     }
   }
   logout(){

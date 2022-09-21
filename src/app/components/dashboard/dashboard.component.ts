@@ -6,11 +6,10 @@ import {ClassesService} from "../../service/classes.service";
 import {User} from "../../model/user";
 import {ParentService} from "../../service/parent.service";
 import {EleveModelGet} from "../../model/eleve-model-get";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
-import {Evaluation} from "../../model/evaluation";
 import {EvaluationModelGet} from "../../model/evaluation-model-get";
 import {ProfesseursService} from "../../service/professeurs.service";
+import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-dashboard',
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit {
               private evaluationService:EvaluationService,
               private classeService:ClassesService,
               private parentService : ParentService,
-              private notifier : NotificationService,
+              private notificationService: NotificationsService,
               private professeurService: ProfesseursService) { }
   title = 'Tableau de bord';
   stat!: number;
@@ -245,7 +244,7 @@ export class DashboardComponent implements OnInit {
           }
         });
       },
-      error:(error)=>this.notifier.notify(NotificationType.ERROR, error.error.message)
+      error:(error)=>this.notificationService.successOrFailOperation(error.error.message,Constants.ERROR_STYLE,'')
     })
   }
 }

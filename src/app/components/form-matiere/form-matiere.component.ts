@@ -5,6 +5,7 @@ import {MatieresService} from "../../service/matieres.service";
 import {Matiere} from "../../model/matiere";
 import Swal from "sweetalert2";
 import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-form-matiere',
@@ -50,7 +51,7 @@ export class FormMatiereComponent implements OnInit {
               titleText:"Matière ajoutée avec succès",
               icon: 'success'
             }).then(()=>{
-              this.notificationService.successOrFailOperation('','mycssSnackbarGreen','classes')
+              this.notificationService.successOrFailOperation('',Constants.SUCCESS_STYLE,'classes')
               this.matDialogRef.close()
             })
           },

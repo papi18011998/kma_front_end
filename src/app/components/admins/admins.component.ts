@@ -4,10 +4,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AdminsService} from "../../service/admins.service";
 import {Router} from "@angular/router";
 import Swal from "sweetalert2";
-import {NotificationType} from "../../enum/notification-type";
-import {NotificationService} from "../../service/notification.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormAdminComponent} from "../form-admin/form-admin.component";
+import {NotificationsService} from "../../service/notifications.service";
+import {Constants} from "../../enum/constants";
 
 @Component({
   selector: 'app-admins',
@@ -21,8 +21,8 @@ export class AdminsComponent implements OnInit {
   constructor(private adminsService:AdminsService,
               private formBuilder:FormBuilder,
               private router:Router,
-              private notifier : NotificationService,
-              private matDialog: MatDialog) { }
+              private matDialog: MatDialog,
+              private notificationService: NotificationsService) { }
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
@@ -57,10 +57,9 @@ export class AdminsComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminsService.changeStatus(id).subscribe({
           next:()=> {
-            this.getAdmins()
-            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
+            this.notificationService.successOrFailOperation(Constants.PROFIL_MODIFIE,Constants.SUCCESS_STYLE,'admins')
           },
-          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+          error:(err)=>this.notificationService.successOrFailOperation(err.error.message,Constants.ERROR_STYLE,'admins')
         })
       }
     })

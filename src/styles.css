@@ -10,8 +10,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mycssSnackbarGreen{
   background-color: #1E7E34;
   color: white;
+  font-weight: bolder;
 }
 .mycssSnackbarRed{
   background-color: #C8302C;
   color: white;
+  font-weight: bolder;
 }

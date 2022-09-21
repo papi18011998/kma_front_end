@@ -5,9 +5,9 @@ import {ParentService} from "../../service/parent.service";
 import Swal from "sweetalert2";
 import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
-import {NotificationService} from "../../service/notification.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormParentComponent} from "../form-parent/form-parent.component";
+import {NotificationsService} from "../../service/notifications.service";
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ParentsComponent implements OnInit {
   constructor( private parentService:ParentService,
                private form:FormBuilder,
                private adminService : AdminsService,
-               private notifier : NotificationService,
+               private notificationService: NotificationsService,
                private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -58,10 +58,10 @@ export class ParentsComponent implements OnInit {
       if (result.isConfirmed) {
         this.adminService.changeStatus(id).subscribe({
           next:()=> {
+            this.notificationService.successOrFailOperation('Profil modifié avec succès !!!','mycssSnackbarGreen','parents')
             this.getParents()
-            this.notifier.notify(NotificationType.SUCCESS,"Profil modifié avec succès !!!" )
           },
-          error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+          error:(err)=>this.notificationService.successOrFailOperation(err.error.message,'mycssSnackbarRed','parents')
         })
       }
     })

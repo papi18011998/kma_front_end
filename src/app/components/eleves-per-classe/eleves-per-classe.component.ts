@@ -3,11 +3,10 @@ import {EleveModelGet} from "../../model/eleve-model-get";
 import {ClassesService} from "../../service/classes.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
-import {FormMatiereComponent} from "../form-matiere/form-matiere.component";
 import {MatDialog} from "@angular/material/dialog";
 import {EvaluationFormComponent} from "../evaluation-form/evaluation-form.component";
+import {Constants} from "../../enum/constants";
+import {NotificationsService} from "../../service/notifications.service";
 
 @Component({
   selector: 'app-eleves-per-classe',
@@ -20,7 +19,7 @@ export class ElevesPerClasseComponent implements OnInit {
   page:number = 1
   constructor(private classeService : ClassesService,
               private route : ActivatedRoute,
-              private notifier : NotificationService,
+              private notificationService: NotificationsService,
               private formBuilder: FormBuilder,
               private router: Router,
               private matDialog: MatDialog) { }
@@ -35,7 +34,7 @@ export class ElevesPerClasseComponent implements OnInit {
     let idClasse:number = this.route.snapshot.params['id']
     this.classeService.getElevesOfClasse(idClasse).subscribe({
       next:(data)=>{this.eleves = data},
-      error:(error)=>{this.notifier.notify(NotificationType.ERROR, error.error.message)}
+      error:(error)=>{this.notificationService.successOrFailOperation(error.error.message,Constants.ERROR_STYLE,'')}
     })
   }
   search() {
