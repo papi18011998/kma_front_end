@@ -1,5 +1,6 @@
 <app-menu></app-menu>
 <div class="container">
+  <button class="btn btn-success" (click)="printNotes()">Imprimer</button>
   <div class="main-body">
     <div class="row">
       <div class="col-lg-4">
@@ -82,7 +83,9 @@
                 <ng-container *ngFor="let evaluation of eleve.evaluations">
                     <div class="d-flex justify-content-between">
                       <h3>{{evaluation.matiere.libelle}}</h3>
+                      <p>{{evaluation.date_evaluation}}</p>
                       <p>{{evaluation.note}} /20</p>
+                      <i class="bi bi-pen" title="modifier la note" (click)="getNoteToUpdate(evaluation.id,evaluation.note)"></i>
                     </div>
                 </ng-container>
             </div>

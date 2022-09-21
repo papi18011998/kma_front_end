@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./components/login/login.component";
-import {UserComponent} from "./components/user/user.component";
 import {AuthGuard} from "./guard/auth.guard";
 import {AdminsComponent} from "./components/admins/admins.component";
 import {FormAdminComponent} from "./components/form-admin/form-admin.component";
@@ -17,6 +16,7 @@ import {ElevesPerClasseComponent} from "./components/eleves-per-classe/eleves-pe
 import {EvaluationFormComponent} from "./components/evaluation-form/evaluation-form.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {DetailsEleveComponent} from "./components/details-eleve/details-eleve.component";
+import {MatieresComponent} from "./components/matieres/matieres.component";
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -39,6 +39,7 @@ const routes: Routes = [
   {path:"eleves/:id",component: DetailsEleveComponent,canActivate:[AuthGuard]},
   {path:"evaluations",component:EvaluationFormComponent,canActivate:[AuthGuard]},
   {path:"dashboard",component:DashboardComponent,canActivate:[AuthGuard]},
+  {path:"matieres",component:MatieresComponent,canActivate:[AuthGuard]},
   {path:'',redirectTo:'/dashboard',pathMatch:'full'}
 ];
 

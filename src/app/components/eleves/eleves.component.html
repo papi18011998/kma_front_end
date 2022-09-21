@@ -13,7 +13,7 @@
     </div>
   </form>
   <ng-container *ngIf="user.role =='ROLE_ADMIN'">
-    <a class="d-flex btn btn-primary" routerLink="add"><i class="bi bi-plus-circle"></i> Nouveau</a>
+    <a class="d-flex btn btn-primary" (click)="openEleveModal()"><i class="bi bi-plus-circle"></i> Nouveau</a>
   </ng-container>
 </div>
 <table id="example" class="display table">

@@ -4,11 +4,10 @@ import {Genre} from "../../model/genre";
 import {Classe} from "../../model/classe";
 import {AdminsService} from "../../service/admins.service";
 import {ClassesService} from "../../service/classes.service";
-import {Router} from "@angular/router";
 import {ParentService} from "../../service/parent.service";
 import {Parent} from "../../model/parent";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
+import {MatDialogRef} from "@angular/material/dialog";
+import {NotificationsService} from "../../service/notifications.service";
 
 
 @Component({
@@ -22,12 +21,15 @@ export class FormParentComponent implements OnInit {
   classes!:Classe[]
   formParent!: FormGroup
   formEleve!:FormGroup
+  existingLogin: boolean = false
+  existingTelephone: boolean = false
+  existingCNI: boolean = false
   constructor (private adminService:AdminsService,
                private classeService:ClassesService,
                private form:FormBuilder,
-               private router:Router,
                private parentService:ParentService,
-               private notifier: NotificationService) {}
+               public matDialogRef : MatDialogRef<FormParentComponent>,
+               private noticationService: NotificationsService) {}
 
   ngOnInit(): void {
     this.getGenres()
@@ -62,19 +64,30 @@ export class FormParentComponent implements OnInit {
       error:(error)=>console.log(error)
     })
   }
-  get prenom(){return this.formParent.get('prenom')}
-  get nom(){return this.formParent.get('nom')}
-  get adresse(){return this.formParent.get('adresse')}
-  get telephone(){return this.formParent.get('telephone')}
-  get cni(){return this.formParent.get('cni')}
-  get login(){return this.formParent.get('login')}
-  get genre_id(){return this.formParent.get('genre_id')}
-  get prenomEleve(){return this.formParent.get('prenomEleve')}
-  get nomEleve(){return this.formParent.get('nomEleve')}
-  get adresseEleve(){return this.formParent.get('adresseEleve')}
-  get genre_idEleve(){return this.formParent.get('genre_idEleve')}
-  get date_naissance(){return this.formParent.get('date_naissance')}
-  get annee(){return this.formParent.get('annee')}
+  // verfication du login, telephone et cni avant passage au formulaire eleve
+  verifyUniqueValues(name:string) {
+    if(name == 'login'){
+      this.adminService.findByLogin(this.formParent.value.login).subscribe({
+        next:(data)=> {
+          this.existingLogin = data != null;
+        }
+      })
+    }
+    if(name == 'telephone'){
+      this.adminService.findByTelephone(this.formParent.value.telephone).subscribe({
+        next:(data)=>{
+          this.existingTelephone = data != null;
+        }
+      })
+    }
+    if(name == 'cni'){
+      this.parentService.finByCni(this.formParent.value.cni).subscribe({
+        next:(data)=>{
+          this.existingCNI = data != null;
+        }
+      })
+    }
+  }
   public onSubmit(){
     const parent:Parent={
       prenom: this.formParent.value.prenom,
@@ -91,16 +104,39 @@ export class FormParentComponent implements OnInit {
       date_naissance: this.formEleve.value.date_naissance,
       annee: this.formEleve.value.annee
     }
+    this.adminService.findByLogin(parent.userName).subscribe({
+      next:(data)=>{
+        if (data != null){
+
+        }else {
+
+        }
+      }
+    })
     this.parentService.addParent(parent).subscribe({
       next:()=>{
-        this.router.navigate(['parents'])
-        this.notifier.notify(NotificationType.SUCCESS, "Parent et élève ajouté avec succès !!!")
+        this.noticationService.successOrFailOperation('Parent et élève ajouté avec succès !!!','mycssSnackbarGreen','parents')
+        this.matDialogRef.close()
       },
       error:error => {
-        this.notifier.notify(NotificationType.ERROR, error.error.message)
+        this.noticationService.successOrFailOperation(error.eroor.message,'mycssSnackbarRed','parents')
         console.log(error)
       }
     })
   }
+
+  get prenom(){return this.formParent.get('prenom')}
+  get nom(){return this.formParent.get('nom')}
+  get adresse(){return this.formParent.get('adresse')}
+  get telephone(){return this.formParent.get('telephone')}
+  get cni(){return this.formParent.get('cni')}
+  get login(){return this.formParent.get('login')}
+  get genre_id(){return this.formParent.get('genre_id')}
+  get prenomEleve(){return this.formEleve.get('prenomEleve')}
+  get nomEleve(){return this.formEleve.get('nomEleve')}
+  get adresseEleve(){return this.formEleve.get('adresseEleve')}
+  get genre_idEleve(){return this.formEleve.get('genre_idEleve')}
+  get date_naissance(){return this.formEleve.get('date_naissance')}
+  get annee(){return this.formEleve.get('annee')}
 
 }

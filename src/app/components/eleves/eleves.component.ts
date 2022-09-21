@@ -8,6 +8,9 @@ import Swal from "sweetalert2";
 import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
 import {NotificationService} from "../../service/notification.service";
+import {FormAdminComponent} from "../form-admin/form-admin.component";
+import {MatDialog} from "@angular/material/dialog";
+import {FormEleveComponent} from "../form-eleve/form-eleve.component";
 
 @Component({
   selector: 'app-eleves',
@@ -23,7 +26,8 @@ export class ElevesComponent implements OnInit {
               private form:FormBuilder,
               private router: Router,
               private adminService : AdminsService,
-              private notifier : NotificationService) { }
+              private notifier : NotificationService,
+              private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getEleves()
@@ -80,6 +84,18 @@ export class ElevesComponent implements OnInit {
           error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
         })
       }
+    })
+  }
+
+  openEleveModal() {
+    this.openDialog()
+  }
+  openDialog(){
+    this.matDialog.open(FormEleveComponent,{
+      width: '100',
+      height: '100',
+      panelClass: 'event-form-dialog',
+      disableClose: true
     })
   }
 }

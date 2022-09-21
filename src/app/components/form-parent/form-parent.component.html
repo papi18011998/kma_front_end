@@ -1,52 +1,79 @@
-<app-menu></app-menu>
-<div class="pagetitle">
-  <h1>Ajout de Parent</h1>
-</div>
+<mat-toolbar class="mat-accent m-0">
+  <mat-toolbar-row class="d-flex justify-content-between bg-primary">
+    <span>Ajout de Parent</span>
+    <button mat-icon-button (click)="matDialogRef.close()"
+            aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <mat-horizontal-stepper linear>
   <mat-step label="Informations du parent">
     <form [formGroup]="formParent">
       <div class="row mb-4">
         <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Prénom(s)" formControlName="prenom">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Prénom(s)</mat-label>
+            <input matInput formControlName="prenom">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="prenom && prenom.touched && prenom.errors?.['required']">Le prénom est obligatoire</div>
         </div>
 
         <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Nom" formControlName="nom">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="nom">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="nom && nom.touched && nom.errors?.['required']">Le nom est obligatoire</div>
         </div>
 
         <div class="col-md-4 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="numero de CNI" formControlName="cni">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Numéro de CNI</mat-label>
+            <input matInput formControlName="cni" (change)="verifyUniqueValues('cni')">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="cni && cni.touched && cni.errors">Format de CNI incorrect</div>
+          <div  class="text-danger" *ngIf="cni && cni.touched && existingCNI">Cette carte existe déjà !!!</div>
         </div>
 
       </div>
       <div class="row mb-4">
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Metre votre login" formControlName="login">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>login</mat-label>
+            <input matInput formControlName="login" (change)="verifyUniqueValues('login')">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="login && login.touched && login.errors?.['required']">Le login est obligatoire</div>
-          <!--          <div  class="text-danger" *ngIf="existingLogin">Le login existe déjà !!!</div>-->
+          <div  class="text-danger" *ngIf="login && login.touched && existingLogin">Le login existe déjà !!!</div>
         </div>
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Ex: 771234433" formControlName="telephone">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="telephone" (change)="verifyUniqueValues('telephone')">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="telephone && telephone.touched && telephone.errors">Format de téléphone incorrect</div>
-          <!--          <div  class="text-danger" *ngIf="existingTelephone">Le Téléphone existe déjà !!!</div>-->
+          <div  class="text-danger" *ngIf="existingTelephone">Le Téléphone existe déjà !!!</div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Adresse" formControlName="adresse">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Adresse</mat-label>
+            <input matInput formControlName="adresse">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="adresse && adresse.touched && adresse.errors?.['required']">L'adresse est obligatoire</div>
         </div>
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <select id="inputState1" class="form-control" formControlName="genre_id" required>
-            <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
-          </select>
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Genre</mat-label>
+            <select matNativeControl required formControlName="genre_id">
+              <option *ngFor="let genre of genres" value="{{genre.id}}">{{genre.libelle}}</option>
+            </select>
+          </mat-form-field>
         </div>
       </div>
       <div class="mt-4">
-        <button class="btn btn-success" matStepperNext [disabled]="formParent.invalid">Suivant</button>
+        <button class="btn btn-success" matStepperNext [disabled]="formParent.invalid || existingLogin || existingTelephone || existingCNI">Suivant </button>
       </div>
     </form>
   </mat-step>
@@ -54,37 +81,55 @@
     <form [formGroup]="formEleve" (ngSubmit)="onSubmit()">
       <div class="row mb-4">
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Prénom(s)" formControlName="prenomEleve">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Prénom(s)</mat-label>
+            <input matInput formControlName="prenomEleve">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="prenomEleve && prenomEleve.touched && prenomEleve.errors?.['required']">Le prénom est obligatoire</div>
         </div>
 
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Nom" formControlName="nomEleve">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="nomEleve">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="nomEleve && nomEleve.touched && nomEleve.errors?.['required']">Le nom est obligatoire</div>
         </div>
       </div>
       <div class="row mb-4">
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0" >
-          <input type="date" class="form-control" placeholder="Metre la date de naissance" formControlName="date_naissance">
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date_naissance">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
           <div  class="text-danger" *ngIf="date_naissance && date_naissance.touched && date_naissance.errors?.['required']">La date de naissance est obligatoire</div>
         </div>
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <input type="text" class="form-control" placeholder="Mettre l'adresse de l'eleve" formControlName="adresseEleve">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Adresse</mat-label>
+            <input matInput formControlName="adresseEleve">
+          </mat-form-field>
           <div  class="text-danger" *ngIf="adresseEleve && adresseEleve.touched && adresseEleve.errors?.['required']">L'adresse est obligatoire</div>
         </div>
       </div>
       <div class="row mb-4">
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <label >Genre de l'élève</label>
-          <select id="inputState" class="form-control" formControlName="genre_idEleve" required>
-            <option *ngFor="let genre of genres" value="{{genre.id}}" >{{genre.libelle}}</option>
-          </select>
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Genre de l'élève</mat-label>
+            <select matNativeControl required formControlName="genre_idEleve">
+              <option *ngFor="let genre of genres" value="{{genre.id}}">{{genre.libelle}}</option>
+            </select>
+          </mat-form-field>
         </div>
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
-          <label >Classe de l'élève</label>
-          <select id="inputState2" class="form-control" formControlName="annee" required>
-            <option *ngFor="let classe of classes" value="{{classe.id}}" >{{classe.libelle}}</option>
-          </select>
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Classe de l'élève</mat-label>
+            <select matNativeControl required formControlName="annee">
+              <option *ngFor="let classe of classes" value="{{classe.id}}" >{{classe.libelle}}</option>
+            </select>
+          </mat-form-field>
         </div>
       </div>
       <div class="text-center">

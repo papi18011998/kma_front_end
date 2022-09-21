@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import Swal from "sweetalert2";
 import {NotificationType} from "../../enum/notification-type";
 import {NotificationService} from "../../service/notification.service";
+import {MatDialog} from "@angular/material/dialog";
+import {FormAdminComponent} from "../form-admin/form-admin.component";
 
 @Component({
   selector: 'app-admins',
@@ -19,7 +21,8 @@ export class AdminsComponent implements OnInit {
   constructor(private adminsService:AdminsService,
               private formBuilder:FormBuilder,
               private router:Router,
-              private notifier : NotificationService) { }
+              private notifier : NotificationService,
+              private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.searchForm = this.formBuilder.group({
@@ -66,7 +69,21 @@ export class AdminsComponent implements OnInit {
   goTo(id:number) {
     let founded = this.admins.find(admin => admin.id == id)
     localStorage.setItem('admin',JSON.stringify(founded).toString())
-    this.router.navigate(['/utilisateurs/'+id])
+    this.openDialog()
   }
 
+  openAdminModal() {
+    if (JSON.parse(localStorage.getItem('admin')!)) {
+      localStorage.removeItem('admin')
+    }
+    this.openDialog()
+  }
+  openDialog(){
+    this.matDialog.open(FormAdminComponent,{
+      width: '100',
+      height: '100',
+      panelClass: 'event-form-dialog',
+      disableClose: true
+    })
+  }
 }

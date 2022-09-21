@@ -10,6 +10,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Professeur} from "../../model/professeur";
 import {NotificationService} from "../../service/notification.service";
 import {NotificationType} from "../../enum/notification-type";
+import {MatDialogRef} from "@angular/material/dialog";
+import {NotificationsService} from "../../service/notifications.service";
 
 @Component({
   selector: 'app-form-professeur',
@@ -27,32 +29,38 @@ export class FormProfesseurComponent implements OnInit {
   is_update:boolean = false
   professeurToUpdate:any
   genres!:Genre[];
+  selectedGenre!:number;
+  selectedMatire!:number;
   constructor(private formBuilder:FormBuilder,
               private professeurService:ProfesseursService,
               private classeService:ClassesService,
               private adminService:AdminsService,
               private route:Router,
               private routeParams:ActivatedRoute,
-              private notifier:NotificationService) { }
+              private notifier:NotificationService,
+              public matDialogRef: MatDialogRef<FormProfesseurComponent>,
+              private notificationService: NotificationsService) { }
 
   ngOnInit(): void {
     this.getMatieres()
     this.getClasses()
     this.getGenres()
 
-    if(this.routeParams.snapshot.params['id']){
+    if(localStorage.getItem('professeur')){
       this.is_update = true
       // @ts-ignore
       this.professeurToUpdate = JSON.parse(localStorage.getItem('professeur'))
+      this.selectedGenre = this.professeurToUpdate.genre.id
+      this.selectedMatire = this.professeurToUpdate.matiere.id
     }
     this.addProfesseurForm = this.formBuilder.group({
       prenom: this.formBuilder.control((this.is_update)?this.professeurToUpdate.prenom:null, Validators.required),
       nom: this.formBuilder.control((this.is_update)?this.professeurToUpdate.nom:null, Validators.required),
-      login: this.formBuilder.control((this.is_update)?this.professeurToUpdate.login:null, Validators.required),
+      login: this.formBuilder.control((this.is_update)?this.professeurToUpdate.userName:null, Validators.required),
       adresse: this.formBuilder.control((this.is_update)?this.professeurToUpdate.adresse:null, Validators.required),
       telephone: this.formBuilder.control((this.is_update)?this.professeurToUpdate.telephone:null, [Validators.pattern('^(77|78|76|70|75)[0-9]{7}$'), Validators.required]),
-      genre_id: this.formBuilder.control(null),
-      matiere_id: this.formBuilder.control(null),
+      genre_id: this.formBuilder.control((this.is_update)?this.selectedGenre:null),
+      matiere_id: this.formBuilder.control((this.is_update)?this.selectedMatire:null),
       date_prise_fonction: this.formBuilder.control((this.is_update)?this.professeurToUpdate.date_prise_fonction:null,[Validators.required]),
       classes: new FormArray([],Validators.required)
     })
@@ -88,9 +96,35 @@ export class FormProfesseurComponent implements OnInit {
     }
     this.classesEnseignees = checkedClasses.value
   }
+
+  // verificcation du login et du telephone
+  /**
+   * Cette fonction permet de verifier si le login n'est pas deja pris
+   * Elle ne s'applique que si nous sommes en situation de modifiction
+   * @param name
+   */
+  verifyUniqueValues(name: string) {
+      if (!this.is_update){
+        if(name == 'login'){
+          this.adminService.findByLogin(this.addProfesseurForm.value.login).subscribe({
+            next:(data)=> {
+              this.existingLogin = data != null;
+            }
+          })
+        }
+        if(name == 'telephone'){
+          this.adminService.findByTelephone(this.addProfesseurForm.value.telephone).subscribe({
+            next:(data)=>{
+              this.existingTelephone = data != null;
+            }
+          })
+        }
+      }
+  }
   async submitProfesseur() {
-    //Modification de professeur
+
     if (this.is_update){
+      //Modification de professeur
       const professeur:Professeur ={
         professeurDTO: {
           id: this.professeurToUpdate.id,
@@ -117,10 +151,14 @@ export class FormProfesseurComponent implements OnInit {
       this.professeurService.updateProfesseur(professeur).subscribe({
         next:()=>{
           localStorage.removeItem('professeur')
-          this.route.navigate(['professeurs'])
-          this.notifier.notify(NotificationType.SUCCESS, "Professur modifié avec succès !!!")
+          this.notificationService.successOrFailOperation("Professeur modifié avec succès","mycssSnackbarGreen","professeurs")
+          this.matDialogRef.close()
         },
-        error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
+        error:(err)=> {
+          this.notificationService.successOrFailOperation(err.error.message, "mycssSnackbarRed", "professeurs")
+          this.matDialogRef.close()
+        }
+
       })
     }else{
       // Ajout de professeur
@@ -146,23 +184,18 @@ export class FormProfesseurComponent implements OnInit {
         },
         classes: this.classesEnseignees
       }
-      await this.adminService.findByLogin(this.addProfesseurForm.value.login.toLowerCase()).subscribe({
-        next:(data)=>{(data!=null)?this.existingLogin=true:this.existingLogin=false}
-      })
-
-      this.adminService.findByTelephone(this.addProfesseurForm.value.telephone.toLowerCase()).subscribe({
-        next: (data) => {
-          (data != null) ? this.existingLogin = true : this.existingLogin = false;
-          if (!this.existingLogin && !this.existingTelephone) {
-            this.professeurService.addProfesseur(professeur).subscribe({
-              next: () => {
-                this.notifier.notify(NotificationType.SUCCESS, "Professeur modifié avec succès !!!")
-                this.route.navigate(['professeurs'])},
-              error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
-            });
+      if (!this.existingLogin && !this.existingTelephone) {
+        this.professeurService.addProfesseur(professeur).subscribe({
+          next: () => {
+            this.notificationService.successOrFailOperation("Professeur ajouté avec succès","mycssSnackbarGreen","professeurs")
+            this.matDialogRef.close()
+          },
+          error:(err)=> {
+            this.notificationService.successOrFailOperation(err.error.message, "mycssSnackbarRed", "professeurs")
+            this.matDialogRef.close()
           }
-        }
-      })
+        });
+      }
     }
   }
 
@@ -172,4 +205,5 @@ export class FormProfesseurComponent implements OnInit {
   get adresse(){return this.addProfesseurForm.get('adresse')}
   get telephone(){return this.addProfesseurForm.get('telephone')}
   get date_prise_fonction(){return this.addProfesseurForm.get('date_prise_fonction')}
+
 }

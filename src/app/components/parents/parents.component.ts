@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
 import {NotificationService} from "../../service/notification.service";
+import {MatDialog} from "@angular/material/dialog";
+import {FormParentComponent} from "../form-parent/form-parent.component";
 
 
 @Component({
@@ -21,7 +23,8 @@ export class ParentsComponent implements OnInit {
   constructor( private parentService:ParentService,
                private form:FormBuilder,
                private adminService : AdminsService,
-               private notifier : NotificationService) { }
+               private notifier : NotificationService,
+               private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getParents()
@@ -61,6 +64,15 @@ export class ParentsComponent implements OnInit {
           error:(err)=>this.notifier.notify(NotificationType.ERROR, err.error.message)
         })
       }
+    })
+  }
+
+  openParentModal() {
+    this.matDialog.open(FormParentComponent,{
+      width: '100',
+      height: '100',
+      panelClass: 'event-form-dialog',
+      disableClose: true
     })
   }
 }

@@ -6,6 +6,9 @@ import Swal from "sweetalert2";
 import {NotificationType} from "../../enum/notification-type";
 import {AdminsService} from "../../service/admins.service";
 import {NotificationService} from "../../service/notification.service";
+import {MatDialog} from "@angular/material/dialog";
+import {FormParentComponent} from "../form-parent/form-parent.component";
+import {FormProfesseurComponent} from "../form-professeur/form-professeur.component";
 
 @Component({
   selector: 'app-professeurs',
@@ -17,7 +20,8 @@ export class ProfesseursComponent implements OnInit {
               private router:Router,
               private form:FormBuilder,
               private adminService : AdminsService,
-              private notifier : NotificationService) { }
+              private notifier : NotificationService,
+              private matDialog: MatDialog) { }
   professeurs!:any
   page:number =1
   searchForm!:FormGroup
@@ -62,7 +66,7 @@ export class ProfesseursComponent implements OnInit {
   goTo(id:number) {
     let founded = this.professeurs.find((professeur:any)=>professeur.id==id)
     localStorage.setItem('professeur',JSON.stringify(founded).toString())
-    this.router.navigate(['professeurs',id])
+    this.openDialog()
   }
 
   search() {
@@ -71,4 +75,18 @@ export class ProfesseursComponent implements OnInit {
     this.professeurs = this.professeurService.searchProfesseur(this.searchForm.value.nom.toLowerCase())
   }
 
+  openProfesseurModal() {
+    if(localStorage.getItem('professeur')){
+      localStorage.removeItem('professeur')
+    }
+    this.openDialog()
+  }
+  openDialog(){
+    this.matDialog.open(FormProfesseurComponent,{
+      width: '100',
+      height: '100',
+      panelClass: 'event-form-dialog',
+      disableClose: true
+    })
+  }
 }

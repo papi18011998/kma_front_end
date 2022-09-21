@@ -5,6 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {NotificationService} from "../../service/notification.service";
 import {NotificationType} from "../../enum/notification-type";
+import {FormMatiereComponent} from "../form-matiere/form-matiere.component";
+import {MatDialog} from "@angular/material/dialog";
+import {EvaluationFormComponent} from "../evaluation-form/evaluation-form.component";
 
 @Component({
   selector: 'app-eleves-per-classe',
@@ -19,7 +22,8 @@ export class ElevesPerClasseComponent implements OnInit {
               private route : ActivatedRoute,
               private notifier : NotificationService,
               private formBuilder: FormBuilder,
-              private router: Router) { }
+              private router: Router,
+              private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getElevesPerClasse()
@@ -39,9 +43,19 @@ export class ElevesPerClasseComponent implements OnInit {
   }
 
   getEleveToEvaluate(id: number) {
+    // suppression du localStorage de modification
+    localStorage.removeItem('noteToUpdate')
+    localStorage.removeItem('idEvaluation')
+    localStorage.removeItem('noteEvaluation')
+
     let eleveToEvaluate = this.eleves.find((eleve)=> eleve.id==id)
     localStorage.setItem('eleveToEvaluate',JSON.stringify(eleveToEvaluate))
-    this.router.navigate(['evaluations'])
+    this.matDialog.open(EvaluationFormComponent,{
+      width: '100',
+      height: '100',
+      panelClass: 'event-form-dialog',
+      disableClose: true
+    })
   }
 
   getDetailsEleve(id: number) {

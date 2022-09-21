@@ -28,4 +28,7 @@ export class EvaluationService {
   public getToFiveScore():Observable<string[]>{
     return this.httpClient.get<string[]>(`${environment.apiUrl}/eleves/top`)
   }
+  public  updateEvaluation(idEvaluation:number,evaluation: Evaluation):Observable<Evaluation>{
+    return this.httpClient.put<Evaluation>(`${environment.apiUrl}/evaluations/${idEvaluation}`,evaluation)
+  }
 }

@@ -4,3 +4,14 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-dialog-container {
+  padding: 0px !important;
+}
+.mycssSnackbarGreen{
+  background-color: #1E7E34;
+  color: white;
+}
+.mycssSnackbarRed{
+  background-color: #C8302C;
+  color: white;
+}

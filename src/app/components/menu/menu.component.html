@@ -17,11 +17,6 @@
               <i class="bi bi-list"></i><span>Liste des admins</span>
             </a>
           </li>
-          <li>
-            <a  [routerLink]="['/admins/add']">
-              <i class="bi bi-person-plus"></i><span>Ajouter un admin</span>
-            </a>
-          </li>
         </ul>
       </li><!-- End Components Nav -->
       <li class="nav-item">
@@ -32,11 +27,6 @@
           <li>
             <a [routerLink]="['/parents']">
               <i class="bi bi-list"></i><span>Liste des parents</span>
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/parents/add']">
-              <i class="bi bi-person-plus"></i><span>Ajouter un parent</span>
             </a>
           </li>
         </ul>
@@ -51,11 +41,6 @@
               <i class="bi bi-list"></i><span>Liste des élèves</span>
             </a>
           </li>
-          <li>
-            <a [routerLink]="['/eleves/add']">
-              <i class="bi bi-person-plus"></i><span>Ajouter un élève</span>
-            </a>
-          </li>
         </ul>
       </li><!-- End Eleve Nav -->
       <li class="nav-item">
@@ -66,11 +51,6 @@
           <li>
             <a [routerLink]="['/professeurs']">
               <i class="bi bi-list"></i><span>Liste des professeurs</span>
-            </a>
-          </li>
-          <li>
-            <a [routerLink]="['/professeurs/add']" class="bi bi-arrow-up-short">
-              <i class="bi bi-person-plus"></i><span>Ajouter un professeur</span>
             </a>
           </li>
         </ul>
@@ -94,7 +74,7 @@
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="icons-bootstrap.html">
+            <a [routerLink]="['/matieres']">
               <i class="bi bi-list"></i><span>Liste des matières</span>
             </a>
           </li>

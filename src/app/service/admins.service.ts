@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Admin} from "../model/admin";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Genre} from "../model/genre";
@@ -26,7 +26,7 @@ export class AdminsService {
     return this.httpClient.get<Genre[]>(`${environment.apiUrl}/genres`)
   }
   public findByLogin(login:string){
-    return this.httpClient.get(`${environment.apiUrl}/users/login/${login}`)
+    return this.httpClient.get(`${environment.apiUrl}/users/username/${login}`)
   }
   public findByTelephone(telephone:string){
     return this.httpClient.get(`${environment.apiUrl}/users/telephone/${telephone}`)

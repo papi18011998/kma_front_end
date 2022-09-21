@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AdminsService} from "../../service/admins.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
 import {Genre} from "../../model/genre";
 import {Admin} from "../../model/admin";
-import {NotificationService} from "../../service/notification.service";
-import {NotificationType} from "../../enum/notification-type";
+import {MatDialogRef} from "@angular/material/dialog";
+import {NotificationsService} from "../../service/notifications.service";
 
 @Component({
   selector: 'app-form-admin',
@@ -15,9 +14,8 @@ import {NotificationType} from "../../enum/notification-type";
 export class FormAdminComponent implements OnInit {
   constructor(private adminService:AdminsService,
               private fromBuilder:FormBuilder,
-              private router:Router,
-              private route:ActivatedRoute,
-              private notifier: NotificationService) { }
+              private notificationService: NotificationsService,
+              public matDialogRef: MatDialogRef<FormAdminComponent>) { }
   existingLogin:boolean = false
   existingTelephone:boolean = false
   admins!:any
@@ -26,21 +24,23 @@ export class FormAdminComponent implements OnInit {
   genres!:Genre[]
   addAdminForm!:FormGroup
   is_update:boolean = false
+  selectedGenre!:string
   telephonePattern:string = '^(77|78|76|70|75)[0-9]{7}$'
   ngOnInit(): void {
     this.getGenres()
-    if (this.route.snapshot.params['id']) {
+    if (JSON.parse(localStorage.getItem('admin')!)) {
       this.is_update = true
       // @ts-ignore
       this.adminToUpdate = JSON.parse(localStorage.getItem('admin'))
+      this.selectedGenre = this.adminToUpdate.genre.id
     }
     this.addAdminForm = this.fromBuilder.group({
       prenom: this.fromBuilder.control((this.is_update)?this.adminToUpdate.prenom:null, Validators.required),
       nom: this.fromBuilder.control((this.is_update)?this.adminToUpdate.nom:null, Validators.required),
-      login: this.fromBuilder.control((this.is_update)?this.adminToUpdate.login:null, Validators.required),
+      login: this.fromBuilder.control((this.is_update)?this.adminToUpdate.userName:null, [Validators.required]),
       adresse: this.fromBuilder.control((this.is_update)?this.adminToUpdate.adresse:null, Validators.required),
       telephone: this.fromBuilder.control((this.is_update)?this.adminToUpdate.telephone:null, [Validators.pattern(this.telephonePattern), Validators.required]),
-      genre_id: this.fromBuilder.control(null)
+      genre_id: this.fromBuilder.control((this.is_update)?this.selectedGenre:null,Validators.required)
     })
   }
   public getGenres(){
@@ -51,48 +51,34 @@ export class FormAdminComponent implements OnInit {
       error:(error)=> console.log(error)
     })
   }
-  async addAdmin() {
-    // Ajout d'un nouvel admin
-    const admin: Admin = {
-      id: null,
-      prenom: this.addAdminForm.value.prenom,
-      nom: this.addAdminForm.value.nom,
-      userName: this.addAdminForm.value.login,
-      adresse: this.addAdminForm.value.adresse,
-      telephone: this.addAdminForm.value.telephone,
-      active: true,
-      genre: {
-        id: this.addAdminForm.value.genre_id,
-        libelle: null
+
+  verifyUniqueValues(name: string) {
+    if (!this.is_update){
+      if(name == 'login'){
+        this.adminService.findByLogin(this.addAdminForm.value.login).subscribe({
+          next:(data)=> {
+            this.existingLogin = data != null;
+          }
+        })
+      }
+      if(name == 'telephone'){
+        this.adminService.findByTelephone(this.addAdminForm.value.telephone).subscribe({
+          next:(data)=>{
+            this.existingTelephone = data != null;
+          }
+        })
       }
     }
-    await this.adminService.findByLogin(this.addAdminForm.value.login).subscribe({
-      next:(data)=>{(data!=null)?this.existingLogin=true:this.existingLogin=false}
-    })
-    await this.adminService.findByTelephone(this.addAdminForm.value.telephone).subscribe({
-      next: (data) => {
-        (data != null) ? this.existingTelephone = true : this.existingTelephone = false;
-        if (!this.existingLogin && !this.existingTelephone) {
-          this.adminService.addAdmin(admin).subscribe({
-            next: () => {
-              this.router.navigate(['admins'])
-              this.notifier.notify(NotificationType.SUCCESS,"Administrateur ajoute avec succès")
-            },
-            error:(err)=>{
-              this.notifier.notify(NotificationType.ERROR, err.error.message)
-              console.log(err)
-            }
-          });
-        }
-      }
-    })
-    // Modification d'un admin
+  }
+
+  async addAdmin() {
     if (this.is_update) {
+      // Modification d'un admin
       const admin: Admin = {
         id: this.adminToUpdate.id,
         prenom: this.addAdminForm.value.prenom,
         nom: this.addAdminForm.value.nom,
-        userName: this.adminToUpdate.login,
+        userName: this.adminToUpdate.userName,
         adresse: this.addAdminForm.value.adresse,
         telephone: this.adminToUpdate.telephone,
         active: true,
@@ -104,9 +90,41 @@ export class FormAdminComponent implements OnInit {
       await this.adminService.updateAdmin(admin).subscribe({
         next: () =>{
           localStorage.removeItem('admin')
-          this.router.navigate(['admins'])
+          this.notificationService.successOrFailOperation('Administrateur modifié avec succès !!!','mycssSnackbarGreen','admins')
+          this.matDialogRef.close()
         },
+        error:(error) =>{
+          this.notificationService.successOrFailOperation(error.error.message,'mycssSnackbarRed','admins')
+        }
       })
+    }
+    else{
+      // Ajout d'un nouvel admin
+      const admin: Admin = {
+        id: null,
+        prenom: this.addAdminForm.value.prenom,
+        nom: this.addAdminForm.value.nom,
+        userName: this.addAdminForm.value.login,
+        adresse: this.addAdminForm.value.adresse,
+        telephone: this.addAdminForm.value.telephone,
+        active: true,
+        genre: {
+          id: this.addAdminForm.value.genre_id,
+          libelle: null
+        }
+      }
+
+      if (!this.existingLogin && !this.existingTelephone) {
+        this.adminService.addAdmin(admin).subscribe({
+          next: () => {
+            this.notificationService.successOrFailOperation('Administrateur ajouté avec succès !!!','mycssSnackbarGreen','admins')
+            this.matDialogRef.close()
+          },
+          error:(err)=>{
+            this.notificationService.successOrFailOperation(err.error.message,'mycssSnackbarRed','admins')
+          }
+        });
+      }
     }
   }
   get prenom(){return this.addAdminForm.get('prenom')}

@@ -38,4 +38,7 @@ export class ProfesseursService {
   getMatiereOfProfesseur(id:number){
    return this.httpClient.get<ProfesseurModelGet>(`${environment.apiUrl}/professeurs/${id}`)
   }
+  getManagedEleve(id:number):Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/professeurs/${id}/countManagedEleves`)
+  }
 }

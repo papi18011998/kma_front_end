@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     if (this.route.snapshot.url[0].path == 'deconnexion'){
       this.logout()
+      location.reload()
     }
   }
   public onLogin(user: User): void {

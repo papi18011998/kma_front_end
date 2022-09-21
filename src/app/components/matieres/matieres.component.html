@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="pagetitle">
-  <h1>Liste des Administrateurs</h1>
+  <h1>Liste des matières</h1>
 </div>
 <div class="search-add-bloc d-flex justify-content-between">
   <form [formGroup]="searchForm" (ngSubmit)="search()" >
@@ -9,26 +9,23 @@
       <button type="submit" class="btn btn-rounded-right border btn-outline-primary"><i class="bi bi-search"></i></button>
     </div>
   </form>
-  <a class=" d-flex btn btn-primary" (click)="openAdminModal()"><i class="bi bi-plus-circle"></i> Nouveau</a>
+  <a class=" d-flex btn btn-primary" (click)="openMatiereModal()"><i class="bi bi-plus-circle"></i> Nouveau</a>
 </div>
 <table id="example" class="display table">
   <thead >
   <tr>
-    <th scope="col">Prénom(s) Nom</th>
-    <th scope="col">Adresse</th>
-    <th scope="col">Telephone</th>
+    <th scope="col">Matière</th>
+    <th scope="col">Coefficient</th>
     <th scope="col">Actions</th>
     <!--    <th scope="col">Handle</th>-->
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let admin of admins| paginate: { itemsPerPage: 10, currentPage: page }">
-    <td>{{admin.prenom}} {{admin.nom}}</td>
-    <td>{{admin.adresse}}</td>
-    <td>{{admin.telephone}}</td>
+  <tr *ngFor="let matiere of matieres| paginate: { itemsPerPage: 10, currentPage: page }">
+    <td>{{matiere.libelle}}</td>
+    <td>{{matiere.coefficient}}</td>
     <td>
-      <a  title="modifier" style="cursor: pointer" (click)="goTo(admin.id)"><i class="bi bi-tools text-primary m-2"></i></a>
-      <a  [title]="admin.active?'Archiver':'Désarchiver'" (click)="changeStatus(admin.id)"><i class="bi bi-archive" [ngClass]="admin.active?'text-danger':'text-success'"></i></a>
+      <a  title="modifier" style="cursor: pointer" (click)="goTo(matiere.id)"><i class="bi bi-tools text-primary m-2"></i></a>
     </td>
     <td></td>
   </tr>

@@ -1,0 +1,26 @@
+<mat-toolbar class="mat-accent m-0">
+  <mat-toolbar-row class="d-flex justify-content-between bg-primary">
+    <span>Ajout de classe</span>
+    <button mat-icon-button (click)="matDialogRef.close()"
+            aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container p-4">
+    <form [formGroup]="classInfo" (submit)="addClasse()">
+      <div>
+        <div class="form-group">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Nom de la classe (CI,CP...)</mat-label>
+            <input matInput formControlName="libelle">
+          </mat-form-field>
+        </div>
+        <div class="text-danger" *ngIf="libelle && libelle.touched && libelle.errors">Format de saisi incorrect</div>
+      </div>
+      <div class="mt-2 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="classInfo.invalid">Enregistrer</button>
+      </div>
+    </form>
+  </div>

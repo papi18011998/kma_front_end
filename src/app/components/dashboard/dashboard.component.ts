@@ -10,6 +10,7 @@ import {NotificationService} from "../../service/notification.service";
 import {NotificationType} from "../../enum/notification-type";
 import {Evaluation} from "../../model/evaluation";
 import {EvaluationModelGet} from "../../model/evaluation-model-get";
+import {ProfesseursService} from "../../service/professeurs.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +34,8 @@ export class DashboardComponent implements OnInit {
               private evaluationService:EvaluationService,
               private classeService:ClassesService,
               private parentService : ParentService,
-              private notifier : NotificationService) { }
+              private notifier : NotificationService,
+              private professeurService: ProfesseursService) { }
   title = 'Tableau de bord';
   stat!: number;
   ngOnInit(): void {
@@ -73,6 +75,10 @@ export class DashboardComponent implements OnInit {
           this.nombreEleves= data
         }
       )
+    }else if(this.user.role == 'ROLE_PROFESSEUR'){
+      this.professeurService.getManagedEleve(this.user.id).subscribe({
+        next:(data)=> this.nombreEleves = data
+      })
     }
 
   }
