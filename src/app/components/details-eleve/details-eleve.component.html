@@ -85,7 +85,9 @@
                       <h3>{{evaluation.matiere.libelle}}</h3>
                       <p>{{evaluation.date_evaluation}}</p>
                       <p>{{evaluation.note}} /20</p>
-                      <i class="bi bi-pen" title="modifier la note" (click)="getNoteToUpdate(evaluation.id,evaluation.note)"></i>
+                      <ng-container *ngIf="userConnecte.role=='ROLE_PROFESSEUR'">
+                        <i class="bi bi-pen" title="modifier la note" (click)="getNoteToUpdate(evaluation.id,evaluation.note)"></i>
+                      </ng-container>
                     </div>
                 </ng-container>
             </div>

@@ -2,15 +2,15 @@
 <div class="row justify-content-between">
   <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
     <div class="col-12 text-center text-bolder" >{{nombreEleves}}</div>
-    <div class="col-12 text-center bg-main mt-4 label-bordered">Elèves</div>
+    <div class="col-12 text-center bg-main mt-4 label-bordered">{{(user.role=='ROLE_ELEVE')?messageStatEleve:'Elèves'}}</div>
   </div>
   <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
     <div class="col-12 text-center text-bolder" >{{avgEvaluation}} /20</div>
-    <div class="col-12 text-center bg-main mt-4 label-bordered">Moyenne général</div>
+    <div class="col-12 text-center bg-main mt-4 label-bordered">{{(user.role=='ROLE_ELEVE')?messageavg:'Moyenne général'}}</div>
   </div>
   <div class="col-md-3 shadow rounded mt-2 p-5 carte-global">
     <div class="col-12 text-center text-bolder" style="font-weight: bolder;font-size: 32px">{{mostFrequentEvaluation}} /20</div>
-    <div *ngIf="user.role != 'ROLE_PARENT';else elseBloc" class="col-12 text-center bg-main mt-4 label-bordered">Note Fréquente</div>
+    <div *ngIf="user.role != 'ROLE_PARENT';else elseBloc" class="col-12 text-center bg-main mt-4 label-bordered">{{(user.role=='ROLE_ELEVE')?messageMostFrequentScore:'Note Fréquente'}}</div>
     <ng-template #elseBloc>
       <div class="col-12 text-center bg-main mt-4 label-bordered" style="font-weight: bolder;font-size: 20px" >Plus grande note</div>
     </ng-template>
@@ -21,6 +21,22 @@
   <option selected>Selectionnez un élève</option>
   <option *ngFor="let eleve of eleves" value="{{eleve.id}}" >{{eleve.prenom}} {{eleve.nom}}</option>
 </select>
+<div *ngIf="user.role=='ROLE_ELEVE'" class="mt-5">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="d-flex align-items-center mb-3">Liste des évaluations</h2>
+        <ng-container *ngFor="let evaluation of lisEvaluations">
+          <div class="d-flex justify-content-between">
+            <h3>{{evaluation.matiere.libelle}}</h3>
+            <p>{{evaluation.date_evaluation}}</p>
+            <p>{{evaluation.note}} /20</p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="d-flex justify-content-between mt-5" style="width: 500px;height: 500px;">
   <canvas id="my_first_chart" style="width: 400px;height: 400px;"></canvas>
   <canvas id="chartTopFive" style="width: 400px;height: 400px;"></canvas>

@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {EvaluationFormComponent} from "../evaluation-form/evaluation-form.component";
 import {NotificationsService} from "../../service/notifications.service";
 import {Constants} from "../../enum/constants";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-details-eleve',
@@ -14,6 +15,7 @@ import {Constants} from "../../enum/constants";
 export class DetailsEleveComponent implements OnInit {
 
   eleve:any
+  userConnecte:User = JSON.parse(localStorage.getItem('user')!)
   constructor(private route : ActivatedRoute,
               private eleveService : ElevesService,
               private notificationService : NotificationsService,

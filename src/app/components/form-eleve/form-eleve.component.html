@@ -122,7 +122,7 @@
         <div class="col-md-6 col-sm-12 mb-3 mb-lg-0">
           <mat-form-field appearance="outline" class="col-12">
             <mat-label>Genre de l'élève</mat-label>
-            <select matNativeControl required formControlName="annee">
+            <select matNativeControl required formControlName="genre_idParent">
               <option *ngFor="let genre of genres" value="{{genre.id}}">{{genre.libelle}}</option>
             </select>
           </mat-form-field>

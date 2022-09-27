@@ -97,6 +97,8 @@ export class FormEleveComponent implements OnInit {
   }
 
   submitForm() {
+    console.log(this.parentForm.value)
+    console.log(this.eleveForm.value)
     if(this.is_update){
       //Modification d'eleve
     }else{

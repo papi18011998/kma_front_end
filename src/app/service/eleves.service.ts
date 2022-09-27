@@ -32,6 +32,18 @@ export class ElevesService {
     return this.httpClient.get<any>(`${environment.apiUrl}/eleves/${idEleve}`)
   }
 
+  getMyBestScore(idEleve: number):Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/eleves/${idEleve}/bestscore`)
+  }
+
+  getMyBestAverage(idEleve: number):Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/eleves/${idEleve}/average`)
+  }
+
+  getMyFrequentScore(idEleve: number):Observable<number>{
+    return this.httpClient.get<number>(`${environment.apiUrl}/eleves/${idEleve}/frequentscore`)
+  }
+
   searchEleve(nom:string) {
     return this.eleves.filter((eleve)=>eleve.nom.toLowerCase().includes(nom.toLowerCase()));
   }

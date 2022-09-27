@@ -28,6 +28,10 @@ export class DashboardComponent implements OnInit {
   noteEleves:number[] = []
   eleves: EleveModelGet[] =[]
   evaluations : EvaluationModelGet[] =[]
+  messageStatEleve!:string
+  messageavg!:string
+  messageMostFrequentScore!:string
+  lisEvaluations:EvaluationModelGet[] = []
   user:User = JSON.parse(localStorage.getItem('user')!)
   constructor(private eleveService:ElevesService,
               private evaluationService:EvaluationService,
@@ -51,8 +55,53 @@ export class DashboardComponent implements OnInit {
     if (this.user.role == 'ROLE_PARENT'){
       this.getElevesByParent()
     }
+    if (this.user.role == 'ROLE_ELEVE'){
+      this.getMyBestScore()
+      this.getMyAverage()
+      this.getMyFrequentScore()
+      this.getMyAllEvaluations()
+    }
   }
 
+  // Statistique si role est ELEVE
+  getMyBestScore(){
+    this.eleveService.getMyBestScore(this.user.id ).subscribe({
+      next:(score)=> {
+        this.nombreEleves = score
+        if(this.nombreEleves == null){
+          this.messageStatEleve = 'Pas encore de note !!!'
+        }else{
+          this.messageStatEleve = 'Plus grande note'
+        }
+      }
+    })
+  }
+  getMyAverage(){
+    this.eleveService.getMyBestAverage(this.user.id).subscribe({
+      next: (avg)=>{
+        this.avgEvaluation = avg
+        if(this.avgEvaluation == null){
+          this.messageavg = 'Pas encore de note !!!'
+        }else{
+          this.messageavg = 'Moyenne général'
+        }
+      }
+    })
+  }
+
+  getMyFrequentScore(){
+    this.eleveService.getMyFrequentScore(this.user.id).subscribe({
+      next: (score)=>{
+        this.mostFrequentEvaluation = score
+        if(this.mostFrequentEvaluation == null){
+          this.messageMostFrequentScore = 'Pas encore de note !!!'
+        }else{
+          this.messageMostFrequentScore = 'Note Fréquente'
+        }
+      }
+    })
+  }
+  // Statistique si role est PARENT
   getElevesByParent(){
     let userId = this.user.id
     this.eleveService.getElevesByParent(userId).subscribe({
@@ -80,6 +129,16 @@ export class DashboardComponent implements OnInit {
       })
     }
 
+  }
+
+  getMyAllEvaluations(){
+    let userId = this.user.id;
+    this.eleveService.getEleve(userId).subscribe({
+      next:(data)=>{
+        this.lisEvaluations = data.evaluations
+        console.log(this.lisEvaluations[0]?.matiere)
+      }
+    })
   }
 
   getMostFrequentEvaluation(){
